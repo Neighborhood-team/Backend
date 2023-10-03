@@ -1,4 +1,4 @@
-package com.neighborhood.domain.users;
+package com.neighborhood.domain.member;
 
 import com.neighborhood.domain.pretest.Result;
 import lombok.Builder;
@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Users {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long usersId;
+    private Long memberId;
 
     @Column(unique = true)
     private String phone;
 
-    @OneToOne(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Result result;
 
     @CreatedDate
@@ -33,7 +33,7 @@ public class Users {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Users(String phone) {
+    public Member(String phone) {
         this.phone = phone;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();

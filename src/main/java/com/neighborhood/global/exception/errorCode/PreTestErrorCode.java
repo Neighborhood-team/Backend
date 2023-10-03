@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 public enum PreTestErrorCode implements ErrorCode {
 
     // TODO: @nacho Kang이 필요한 부분 추가
+    // 미완성(보류)
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "유효하지 않은 ~"),
     ;
 

@@ -1,6 +1,6 @@
 package com.neighborhood.domain.pretest;
 
-import com.neighborhood.domain.users.Users;
+import com.neighborhood.domain.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,10 +15,10 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long resultId;
 
-    private String userType;
+    private String memberType;
     @OneToOne
-    @JoinColumn(name = "userId")
-    private Users users;
+    @JoinColumn(name = "memberId")
+    private Member member;
 
     @ElementCollection
     Map<String, Integer> typeScores;
@@ -27,14 +27,14 @@ public class Result {
         this.typeScores = typeScores;
     }
 
-    public void updateType(String userType) {
-        this.userType = userType;
+    public void updateType(String memberType) {
+        this.memberType = memberType;
     }
 
-    public static Result createResult(Users users) {
+    public static Result createResult(Member member) {
         Result result = new Result();
-        result.users = users;
-        users.addResult(result);
+        result.member = member;
+        member.addResult(result);
 
         return result;
     }

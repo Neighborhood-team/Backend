@@ -16,9 +16,9 @@ public class ResultController extends BaseController {
     private final ResultSaveService resultSaveService;
     private final ResultDeleteService resultDeleteService;
 
-    @PostMapping("/save/{usersId}")
-    public ResponseEntity<ResponseApiMessage> save(@PathVariable Long usersId, @RequestBody ResultSaveRequestDto requestDto) {
-        Long savedResultId = resultSaveService.save(usersId, requestDto);
+    @PostMapping("/save/{memberId}")
+    public ResponseEntity<ResponseApiMessage> save(@PathVariable Long memberId, @RequestBody ResultSaveRequestDto requestDto) {
+        Long savedResultId = resultSaveService.save(memberId, requestDto);
 
         return sendResponseHttpByJson(SUCCESS_CODE, "Pretest Result saved", savedResultId);
     }
