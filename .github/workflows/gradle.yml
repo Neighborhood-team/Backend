@@ -18,6 +18,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.ACTION_TOKEN }}
+        submodules: true
 
     # Spring Boot App Build
     - name: Spring Boot Build
