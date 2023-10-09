@@ -42,9 +42,11 @@ tasks.named('test') {
 }
 
 task copyGitSubmodule(type: Copy) {
-	from './config'
-	include '*.yml'
-	into './src/main/resources'
+	copy {
+		from './config'
+		include '*.yml'
+		into './src/main/resources'
+	}
 }
 
 jar {
