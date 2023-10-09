@@ -23,12 +23,14 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	//swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	//aws sdk for s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -37,4 +39,14 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+task copyGitSubmodule(type: Copy) {
+	from './config'
+	include '*.yml'
+	into './src/main/resources'
+}
+
+jar {
+	enabled = false
 }
