@@ -1,0 +1,4 @@
+[submodule "project/submodule-config"]
+	path = project/submodule-config
+	url = https://github.com/Neighborhood-team/submodule-config.git
+	branch = main
