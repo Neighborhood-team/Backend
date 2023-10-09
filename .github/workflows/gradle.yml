@@ -21,7 +21,6 @@ jobs:
       with:
         token: ${{ secrets.ACTION_TOKEN }}
         submodules: true
-      
 
     # Spring Boot App Build
     - name: Spring Boot Build
