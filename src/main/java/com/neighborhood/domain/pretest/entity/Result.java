@@ -1,4 +1,4 @@
-package com.neighborhood.domain.pretest;
+package com.neighborhood.domain.pretest.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
