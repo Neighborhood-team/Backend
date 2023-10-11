@@ -1,37 +1,18 @@
 package com.neighborhood.domain.pretest;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.util.*;
 
-// 0 -> 얼어붙은 아이
-//1 -> 숨겨진 아이
-//2 -> 어색한 아이
-//3 -> 혼란스러운 아이
-//4 -> 강한아이
-//5 -> 헤매는 아이
-//6 -> 목마른아이
-//7 -> 얼어붙은 아이
-//8 -> 숨겨진
-//9 -> 어색
-//10 -> 혼란스러운
-//11 -> 강한
-//12 -> 헤매는
-//13 -> 목마른
-//14 -> 얼어붙은
-//15 -> 숨겨진
-//16 -> 어색한
-//17 -> 혼란스러운
-//18 -> 강한
-//19 -> 헤매는
-//20 -> 목마른
-//21 -> 얼어붙은
-//22 -> 숨겨진
-//23 -> 어색한
-//24 -> 혼란스러운
-//25 -> 강한
-//26 -> 헤매는
-//27 -> 목마른
+// Strong : 강한 아이
+// Awkward : 어색한 아이
+// Lost : 헤매는 아이
+// Frozen : 얼어붙은 아이
+// Thirsty : 목 마른 아이
+// Confused : 혼란스러운 아이
+// Hidden : 숨겨진 아이
 
-public class ScoreCalculator {
+public class ResultManager {
     private static final String STRONG = "Strong";
     private static final String AWKWARD = "Awkward";
     private static final String LOST = "Lost";
@@ -103,7 +84,7 @@ public class ScoreCalculator {
     }
 
     public static String getType(Map<String, Integer> scoreMap) {
-        // 맵을 value기준으로 내림차순 정렬 -> 가장 높은 점수의 유형이 맨 위에 있겠지? 그거 리턴
+        // 맵을 value기준으로 내림차순 정렬 -> 가장 높은 점수의 유형이 맨 위에 오게하고 맨 위에것만 리턴
         List<Map.Entry<String, Integer>> entryList = new LinkedList<>(scoreMap.entrySet());
         entryList.sort(new Comparator<Map.Entry<String, Integer>>() {
             @Override
@@ -113,5 +94,11 @@ public class ScoreCalculator {
         });
 
         return entryList.get(0).getKey();
+    }
+
+    public static String generateResultCode(int size) {
+        String randomCode = RandomStringUtils.randomAlphanumeric(size);
+
+        return randomCode;
     }
 }

@@ -1,9 +1,9 @@
 package com.neighborhood.domain.member.controller;
 
+import com.neighborhood.domain.member.dto.MemberResponseDto;
+import com.neighborhood.domain.member.service.MemberManageService;
 import com.neighborhood.domain.pretest.controller.BaseController;
 import com.neighborhood.domain.member.dto.MemberSaveRequestDto;
-import com.neighborhood.domain.member.service.MemberDeleteService;
-import com.neighborhood.domain.member.service.MemberSaveService;
 import com.neighborhood.global.config.ResponseApiMessage;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.CommonErrorCode;
@@ -17,19 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController extends BaseController {
 
     private final static int SUCCESS_CODE = 200;
-    private final MemberSaveService memberSaveService;
-    private final MemberDeleteService memberDeleteService;
+    private final MemberManageService memberManageService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseApiMessage> save(@RequestBody MemberSaveRequestDto requestDto) {
-        Long savedMemberId = memberSaveService.save(requestDto);
+    public MemberResponseDto save(@RequestBody MemberSaveRequestDto requestDto) {
+        MemberResponseDto responseDto = memberManageService.save(requestDto);
 
-        return sendResponseHttpByJson(SUCCESS_CODE, "Member saved", savedMemberId);
+        return responseDto;
     }
 
     @DeleteMapping("delete/{memberId}")
     public ResponseEntity<ResponseApiMessage> delete(@PathVariable Long memberId) {
-        Long deletedMemberId = memberDeleteService.delete(memberId);
+        Long deletedMemberId = memberManageService.delete(memberId);
 
         return sendResponseHttpByJson(SUCCESS_CODE, "Member deleted", deletedMemberId);
     }

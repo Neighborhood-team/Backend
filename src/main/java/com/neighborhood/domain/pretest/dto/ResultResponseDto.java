@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class ResultResponseDto {
-    Long memberId;
     Long resultId;
-    String memberType;
+    String resultType;
+    String resultCode;
 
-    public ResultResponseDto(Result result, Long memberId) {
-        this.memberId = memberId;
+    public ResultResponseDto(Result result) {
         this.resultId = result.getResultId();
-        this.memberType = String.valueOf(result.getMemberType());
+        this.resultType = String.valueOf(result.getResultType());
+        this.resultCode = result.getResultCode();
     }
 }

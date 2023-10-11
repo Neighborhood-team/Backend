@@ -1,9 +1,9 @@
-package com.neighborhood.domain.member;
+package com.neighborhood.domain.member.entity;
 
-import com.neighborhood.domain.pretest.Result;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,9 +23,6 @@ public class Member {
     @Column(unique = true)
     private String phone;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Result result;
-
     @CreatedDate
     private LocalDateTime createdDate;
 
@@ -38,6 +35,4 @@ public class Member {
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
     }
-
-    public void addResult(Result result) { this.result = result; }
 }

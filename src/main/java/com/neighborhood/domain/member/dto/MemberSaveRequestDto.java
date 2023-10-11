@@ -1,6 +1,6 @@
 package com.neighborhood.domain.member.dto;
 
-import com.neighborhood.domain.member.Member;
+import com.neighborhood.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

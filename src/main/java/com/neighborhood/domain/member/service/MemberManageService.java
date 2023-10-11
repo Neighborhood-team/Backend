@@ -1,15 +1,16 @@
 package com.neighborhood.domain.member.service;
 
-import com.neighborhood.domain.member.Member;
-import com.neighborhood.domain.member.repository.MemberRepository;
+import com.neighborhood.domain.member.dto.MemberResponseDto;
+import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.dto.MemberSaveRequestDto;
+import com.neighborhood.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class MemberSaveService {
+public class MemberManageService {
     private final MemberRepository memberRepository;
 
     public Member findMember(Long memberId) {
@@ -18,9 +19,17 @@ public class MemberSaveService {
     }
 
     @Transactional
-    public Long save(MemberSaveRequestDto requestDto) {
+    public MemberResponseDto save(MemberSaveRequestDto requestDto) {
         Member member = requestDto.toEntity();
+        memberRepository.save(member);
+        return new MemberResponseDto(member);
+    }
 
-        return memberRepository.save(member).getMemberId();
+    @Transactional
+    public Long delete(Long memberId) {
+        Member member = findMember(memberId);
+        memberRepository.delete(member);
+
+        return memberId;
     }
 }
