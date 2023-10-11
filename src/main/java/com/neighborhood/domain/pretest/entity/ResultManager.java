@@ -1,4 +1,4 @@
-package com.neighborhood.domain.pretest;
+package com.neighborhood.domain.pretest.entity;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

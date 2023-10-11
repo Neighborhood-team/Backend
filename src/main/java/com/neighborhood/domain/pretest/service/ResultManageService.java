@@ -1,7 +1,7 @@
 package com.neighborhood.domain.pretest.service;
 
-import com.neighborhood.domain.pretest.Result;
-import com.neighborhood.domain.pretest.ResultManager;
+import com.neighborhood.domain.pretest.entity.Result;
+import com.neighborhood.domain.pretest.entity.ResultManager;
 import com.neighborhood.domain.pretest.dto.ResultResponseDto;
 import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
 import com.neighborhood.domain.pretest.repository.ResultRepository;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.SQLOutput;
 
 @RequiredArgsConstructor
 @Service
