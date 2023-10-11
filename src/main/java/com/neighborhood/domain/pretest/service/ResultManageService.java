@@ -1,0 +1,47 @@
+package com.neighborhood.domain.pretest.service;
+
+import com.neighborhood.domain.pretest.Result;
+import com.neighborhood.domain.pretest.ResultManager;
+import com.neighborhood.domain.pretest.dto.ResultResponseDto;
+import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
+import com.neighborhood.domain.pretest.repository.ResultRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLOutput;
+
+@RequiredArgsConstructor
+@Service
+@Log4j2
+public class ResultManageService {
+    private final ResultRepository resultRepository;
+
+    public Result findResult(Long resultId) {
+        return resultRepository.findById(resultId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 결과가 없습니다. RESULT_ID=" + resultId));
+    }
+
+    @Transactional
+    public ResultResponseDto save(ResultSaveRequestDto requestDto) {
+        Result result = Result.createResult();
+
+        result.calculateScores(ResultManager.getScoreMap(requestDto.getScores()));
+        result.updateType(ResultManager.getType(result.getTypeScores()));
+        result.updateResultCode(ResultManager.generateResultCode(7));
+
+        resultRepository.save(result);
+
+
+        return new ResultResponseDto(result);
+    }
+
+    @Transactional
+    public Long delete(Long resultId) {
+        Result result = findResult(resultId);
+        resultRepository.delete(result);
+
+        return resultId;
+    }
+}
