@@ -97,8 +97,34 @@ public class ResultManager {
     }
 
     public static String generateResultCode(int size) {
-        String randomCode = RandomStringUtils.randomAlphanumeric(size);
+        Random rnd = new Random();
+        StringBuffer randomCode=new StringBuffer();
+        for (int i = 1; i <= size; i++) {
+            if (rnd.nextBoolean())
+                randomCode.append((char)(rnd.nextInt(26)+65));
+            else
+                randomCode.append(rnd.nextInt(10));
+        }
+        return randomCode.toString();
+    }
 
-        return randomCode;
+    public static Long matchTypeImage(String resultType) { // 리턴값으로 맞는 이미지의 pk값
+        Long strongId = 1L;
+        Long awkwardId = 2L;
+        Long lostId = 3L;
+        Long frozenId = 4L;
+        Long thirstyId = 5L;
+        Long confusedId = 6L;
+        Long hiddenId = 7L;
+
+        if(resultType.equals(STRONG)) return strongId;
+        else if(resultType.equals(AWKWARD)) return awkwardId;
+        else if(resultType.equals(LOST)) return lostId;
+        else if(resultType.equals(FROZEN)) return frozenId;
+        else if(resultType.equals(THIRSTY)) return thirstyId;
+        else if(resultType.equals(CONFUSED)) return confusedId;
+        else if(resultType.equals(HIDDEN)) return hiddenId;
+
+        else throw new IllegalArgumentException("Invalid resultType: " + resultType);
     }
 }

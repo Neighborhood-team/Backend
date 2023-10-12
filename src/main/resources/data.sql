@@ -1,0 +1,7 @@
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(1, 'Strong.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Strong.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(2, 'Awkward.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Awkward.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(3, 'Lost.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Lost.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(4, 'Frozen.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Frozen.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(5, 'Thirsty.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Thirsty.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(6, 'Confused.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Confused.png')
+INSERT INTO type_image(image_id, image_name, image_url) VALUES(7, 'Hidden.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Hidden.png')
