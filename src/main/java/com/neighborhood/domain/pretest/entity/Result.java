@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -31,11 +30,14 @@ public class Result {
     @CreatedDate
     private LocalDateTime createdDate;
 
+    @OneToOne(mappedBy = "result")
+    private TypeImage typeImage;
+
     public void calculateScores(Map<String, Integer> typeScores) {
         this.typeScores = typeScores;
     }
 
-    public void updateType(String resultType) {
+    public void updateTypeAndDate(String resultType) {
         this.resultType = resultType;
         this.createdDate = LocalDateTime.now();
     }
@@ -47,5 +49,9 @@ public class Result {
     public static Result createResult() {
         Result result = new Result();
         return result;
+    }
+
+    public void addTypeImage(TypeImage typeImage) {
+        this.typeImage = typeImage;
     }
 }
