@@ -41,6 +41,7 @@ public class ResultManageService {
 
         TypeImage typeImage = findTypeImage(ResultManager.matchTypeImage(ResultManager.getType(result.getTypeScores())));
         result.addTypeImage(typeImage);
+        result.setTypeNumber(ResultManager.matchTypeImage(ResultManager.getType(result.getTypeScores()))-1);
 
         return new ResultResponseDto(result);
     }
