@@ -22,6 +22,9 @@ jobs:
           token: ${{ secrets.ACTION_TOKEN }}
           submodules: true
 
+      - name: Spring Boot Build
+        run: chmod +x ./gradlew
+
       # Spring Boot App Build (1)
       - name: Spring Boot Build
         run: ./gradlew clean build --exclude-task test
