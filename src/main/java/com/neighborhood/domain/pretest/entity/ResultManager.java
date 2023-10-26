@@ -1,7 +1,5 @@
 package com.neighborhood.domain.pretest.entity;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 import java.util.*;
 
 // Strong : 강한 아이
@@ -125,6 +123,6 @@ public class ResultManager {
         else if(resultType.equals(CONFUSED)) return confusedId;
         else if(resultType.equals(HIDDEN)) return hiddenId;
 
-        else throw new IllegalArgumentException("Invalid resultType: " + resultType);
+        else throw new IllegalArgumentException("유효하지 않은 유형입니다: " + resultType);
     }
 }

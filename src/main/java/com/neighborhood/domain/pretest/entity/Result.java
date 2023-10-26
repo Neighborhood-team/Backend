@@ -2,7 +2,6 @@ package com.neighborhood.domain.pretest.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,14 +33,18 @@ public class Result {
     private TypeImage typeImage;
 
     @Column
-    private Long typeNumber;   // 프론트단 요청으로 유형별 Long값 value 제공
-    //0: 강한 아이
-    //1: 어색한 아이
-    //2: 헤매는 아이
-    //3: 얼어붙은 아이
-    //4: 목마른 아이
-    //5: 혼란스러운 아이
-    //6: 숨겨진 아이
+    private Long typeNumber;
+    /*
+    프론트단 요청으로 유형별 Long값 value 제공
+
+    0: 강한 아이
+    1: 어색한 아이
+    2: 헤매는 아이
+    3: 얼어붙은 아이
+    4: 목마른 아이
+    5: 혼란스러운 아이
+    6: 숨겨진 아이
+    */
 
     public void calculateScores(Map<String, Integer> typeScores) {
         this.typeScores = typeScores;
