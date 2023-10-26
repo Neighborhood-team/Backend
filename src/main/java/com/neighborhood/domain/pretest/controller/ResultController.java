@@ -4,16 +4,22 @@ import com.neighborhood.domain.pretest.dto.ResultResponseDto;
 import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
 import com.neighborhood.domain.pretest.service.ResultManageService;
 import com.neighborhood.global.config.ResponseApiMessage;
+import com.neighborhood.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("pretest/result")
+@Log4j2
 public class ResultController extends BaseController {
     private final static int SUCCESS_CODE = 200;
     private final ResultManageService resultManageService;
+    private final S3Util s3Util;
 
     @PostMapping("/")
     public ResultResponseDto save(@RequestBody ResultSaveRequestDto requestDto) {
@@ -33,5 +39,10 @@ public class ResultController extends BaseController {
     public Long getTestCount() {
         Long testCount = resultManageService.getTestCount();
         return testCount;
+    }
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<byte[]> download(@PathVariable String fileName) throws IOException {
+        return s3Util.download("gallery-images/" + fileName);
     }
 }
