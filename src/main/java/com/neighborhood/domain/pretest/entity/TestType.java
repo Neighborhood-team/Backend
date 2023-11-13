@@ -7,14 +7,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TestType {
 
-    STRONG("Strong"),
-    AWKWARD("Awkward"),
-    LOST("Lost"),
-    FROZEN("Frozen"),
-    THIRSTY("Thirsty"),
-    CONFUSED("Confused"),
-    HIDDEN("Hidden")
+    STRONG("Strong", 0L),
+    AWKWARD("Awkward", 1L),
+    LOST("Lost", 2L),
+    FROZEN("Frozen", 3L),
+    THIRSTY("Thirsty", 4L),
+    CONFUSED("Confused", 5L),
+    HIDDEN("Hidden", 6L)
     ;
 
     private final String testType;
+    private final Long code;
 }

@@ -1,5 +1,6 @@
 package com.neighborhood.domain.pretest.entity;
 
+import com.neighborhood.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,6 +46,11 @@ public class Result {
     5: 혼란스러운 아이
     6: 숨겨진 아이
     */
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
 
     public void calculateScores(Map<String, Integer> typeScores) {
         this.typeScores = typeScores;

@@ -1,6 +1,7 @@
 package com.neighborhood.domain.member.entity;
 
 import com.neighborhood.domain.family.entity.Family;
+import com.neighborhood.domain.pretest.entity.Result;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,9 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     private Family family;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Result result;
 
     @Builder
     public Member(String phone) {
