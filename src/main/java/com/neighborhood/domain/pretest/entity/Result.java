@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.EnumMap;
 import java.util.Map;
 
 @Getter
@@ -25,7 +26,7 @@ public class Result {
     private String resultCode;
 
     @ElementCollection
-    Map<String, Integer> typeScores;
+    Map<TestType, Integer> typeScores;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -52,8 +53,8 @@ public class Result {
     private Member member;
 
 
-    public void calculateScores(Map<String, Integer> typeScores) {
-        this.typeScores = typeScores;
+    public void calculateScores(EnumMap<TestType, Integer> typeScores) {
+        this.typeScores = new EnumMap<>(typeScores);
     }
 
     public void updateTypeAndDate(String resultType) {
