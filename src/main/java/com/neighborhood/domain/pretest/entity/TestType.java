@@ -8,12 +8,12 @@ import lombok.Getter;
 public enum TestType {
 
     STRONG("Strong", 0L),
-    AWKWARD("Awkward", 1L),
-    LOST("Lost", 2L),
-    FROZEN("Frozen", 3L),
-    THIRSTY("Thirsty", 4L),
-    CONFUSED("Confused", 5L),
-    HIDDEN("Hidden", 6L)
+    AWKWARD("Awkward", 0L),
+    LOST("Lost", 0L),
+    FROZEN("Frozen", 0L),
+    THIRSTY("Thirsty", 0L),
+    CONFUSED("Confused", 0L),
+    HIDDEN("Hidden", 0L)
     ;
 
     private final String testType;
