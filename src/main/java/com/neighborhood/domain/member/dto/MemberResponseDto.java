@@ -12,6 +12,7 @@ public class MemberResponseDto {
     String phone;
     String email;
     String familyRole;
+    String familyCode;
 
     public MemberResponseDto(Member member) {
         this.memberId = member.getMemberId();
@@ -19,5 +20,6 @@ public class MemberResponseDto {
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.familyRole = String.valueOf(member.getFamilyRole());
+        this.familyCode = member.getFamily().getFamilyCode();
     }
 }

@@ -3,6 +3,7 @@ package com.neighborhood.domain.family.entity;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.global.util.RandomCodeUtil;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;

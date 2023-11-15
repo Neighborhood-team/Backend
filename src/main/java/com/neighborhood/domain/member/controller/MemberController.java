@@ -19,13 +19,6 @@ public class MemberController extends BaseController {
     private final static int SUCCESS_CODE = 200;
     private final MemberManageService memberManageService;
 
-    @PostMapping("/save")
-    public MemberResponseDto save(@RequestBody MemberSaveRequestDto requestDto) {
-        MemberResponseDto responseDto = memberManageService.save(requestDto);
-
-        return responseDto;
-    }
-
     @DeleteMapping("delete/{memberId}")
     public ResponseEntity<ResponseApiMessage> delete(@PathVariable Long memberId) {
         Long deletedMemberId = memberManageService.delete(memberId);
@@ -36,5 +29,12 @@ public class MemberController extends BaseController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMember() {
         throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+    }
+
+    @GetMapping("/name/{familyCode}")
+    public String findFirstMemberInFamily(@PathVariable String familyCode) {
+        String firstMemberName = memberManageService.findFirstMemberInFamily(familyCode);
+
+        return firstMemberName;
     }
 }

@@ -4,6 +4,8 @@ import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.entity.FamilyTypeScore;
 import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
+import com.neighborhood.domain.member.dto.MemberResponseDto;
+import com.neighborhood.domain.member.dto.MemberSaveRequestDto;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.pretest.entity.Result;
@@ -24,11 +26,11 @@ public class FamilyApiService {
 
     /**
      * 해당 회원을 이미 존재하는 가족에 추가
-     * @param member Member 엔티티
+     * @param requestDto MemberSaveRequestDto
      * @param familyCode 가족 고유 코드
      * @return True: 정상적으로 추가 완료 / False: 가족코드에 해당하는 가족 엔티티 조회 불가
      */
-    public Boolean addMemberToExistingFamily(Member member, String familyCode) {
+    public Boolean addMemberToExistingFamily(MemberSaveRequestDto requestDto, String familyCode) {
 
         Family family = familyRepository.findByFamilyCode(familyCode).orElse(null);
 
@@ -36,7 +38,9 @@ public class FamilyApiService {
             return false;
         }
 
+        Member member = Member.createMember();
         member.setFamily(family);
+        member.setMemberInfo(requestDto.getName(), requestDto.getPhone(), requestDto.getEmail(), requestDto.getFamilyRole());
         memberRepository.save(member);
 
         return true;
@@ -44,14 +48,16 @@ public class FamilyApiService {
 
     /**
      * 새 가족을 만들고 해당 회원을 해당 가족에 추가. 가족의 유형별 총합을 0으로 초기화.
-     * @param member
+     * @param requestDto MemberSaveRequestDto
      */
-    public void addMemberToNewFamily(Member member) {
+    public MemberResponseDto addMemberToNewFamily(MemberSaveRequestDto requestDto) {
 
         Family family = new Family();
         familyRepository.save(family);
 
+        Member member = Member.createMember();
         member.setFamily(family);
+        member.setMemberInfo(requestDto.getName(), requestDto.getPhone(), requestDto.getEmail(), requestDto.getFamilyRole());
         memberRepository.save(member);
 
         FamilyTypeScore familyTypeScore1 = new FamilyTypeScore(TestType.STRONG, family);
@@ -69,6 +75,8 @@ public class FamilyApiService {
                 familyTypeScore5,
                 familyTypeScore6,
                 familyTypeScore7));
+
+        return new MemberResponseDto(member);
 
     }
 
