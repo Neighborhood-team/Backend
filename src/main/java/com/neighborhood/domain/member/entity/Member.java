@@ -1,5 +1,7 @@
 package com.neighborhood.domain.member.entity;
 
+import com.neighborhood.domain.family.entity.Family;
+import com.neighborhood.domain.pretest.entity.Result;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +31,21 @@ public class Member {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private Family family;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Result result;
+
     @Builder
     public Member(String phone) {
         this.phone = phone;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
     }
 }

@@ -1,5 +1,6 @@
 package com.neighborhood.domain.pretest.entity;
 
+import com.neighborhood.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.EnumMap;
 import java.util.Map;
 
 @Getter
@@ -24,7 +26,7 @@ public class Result {
     private String resultCode;
 
     @ElementCollection
-    Map<String, Integer> typeScores;
+    Map<TestType, Integer> typeScores;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -46,8 +48,13 @@ public class Result {
     6: 숨겨진 아이
     */
 
-    public void calculateScores(Map<String, Integer> typeScores) {
-        this.typeScores = typeScores;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+
+    public void calculateScores(EnumMap<TestType, Integer> typeScores) {
+        this.typeScores = new EnumMap<>(typeScores);
     }
 
     public void updateTypeAndDate(String resultType) {
