@@ -22,8 +22,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column
+    private String name;
+
     @Column(unique = true)
     private String phone;
+
+    @Column(unique = true)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private FamilyRole familyRole;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -38,9 +47,17 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Result result;
 
-    @Builder
-    public Member(String phone) {
+
+    public static Member createMember() {
+        Member member = new Member();
+        return member;
+    }
+
+    public void setMemberInfo(String name, String phone, String email, FamilyRole familyRole) {
+        this.name = name;
         this.phone = phone;
+        this.email = email;
+        this.familyRole = familyRole;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
     }
