@@ -2,14 +2,6 @@ package com.neighborhood.domain.pretest.entity;
 
 import java.util.*;
 
-// Strong : 강한 아이
-// Awkward : 어색한 아이
-// Lost : 헤매는 아이
-// Frozen : 얼어붙은 아이
-// Thirsty : 목 마른 아이
-// Confused : 혼란스러운 아이
-// Hidden : 숨겨진 아이
-
 public class ResultManager {
     public static EnumMap<TestType, Integer> getScoreMap(List<Integer> scores){
         EnumMap<TestType, Integer> scoreMap = new EnumMap<>(TestType.class);
@@ -75,7 +67,7 @@ public class ResultManager {
     }
 
     public static String getType(Map<TestType, Integer> scoreMap) {
-        // 맵을 value기준으로 내림차순 정렬 -> 가장 높은 점수의 유형이 맨 위에 오게하고 맨 위에것만 리턴
+        // enumMap을 value기준으로 내림차순 정렬 -> 가장 높은 점수의 유형이 맨 위에 오게하고 맨 위에것만 리턴
         List<Map.Entry<TestType, Integer>> entryList = new LinkedList<>(scoreMap.entrySet());
         entryList.sort(new Comparator<Map.Entry<TestType, Integer>>() {
             @Override
@@ -85,18 +77,6 @@ public class ResultManager {
         });
 
         return entryList.get(0).getKey().toString();
-    }
-
-    public static String generateResultCode(int size) {
-        Random rnd = new Random();
-        StringBuffer randomCode=new StringBuffer();
-        for (int i = 1; i <= size; i++) {
-            if (rnd.nextBoolean())
-                randomCode.append((char)(rnd.nextInt(26)+65));
-            else
-                randomCode.append(rnd.nextInt(10));
-        }
-        return randomCode.toString();
     }
 
     public static Long matchTypeImage(String resultType) { // 리턴값으로 맞는 이미지의 pk값

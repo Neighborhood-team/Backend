@@ -7,6 +7,7 @@ import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
 import com.neighborhood.domain.pretest.entity.TypeImage;
 import com.neighborhood.domain.pretest.repository.ResultRepository;
 import com.neighborhood.domain.pretest.repository.TypeImageRepository;
+import com.neighborhood.global.util.RandomCodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ResultManageService {
 
         result.calculateScores(ResultManager.getScoreMap(requestDto.getScores()));
         result.updateTypeAndDate(ResultManager.getType(result.getTypeScores()));
-        result.updateResultCode(ResultManager.generateResultCode(6));
+        result.updateResultCode(RandomCodeUtil.generateResultCode(6));
 
         resultRepository.save(result);
 
