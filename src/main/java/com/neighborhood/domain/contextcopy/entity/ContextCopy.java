@@ -1,11 +1,14 @@
-package com.neighborhood.domain.context_copy.entity;
+package com.neighborhood.domain.contextcopy.entity;
 
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "ContextCopy")
@@ -22,7 +25,7 @@ public class ContextCopy {
     private String context_title;
 
     //자식 or 부모
-//    private enum context_type
+    private String context_role;
 
 
 }
