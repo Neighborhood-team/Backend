@@ -31,4 +31,8 @@ public class FamilyTypeScore {
         this.family = family;
         this.score = 0;
     }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 }

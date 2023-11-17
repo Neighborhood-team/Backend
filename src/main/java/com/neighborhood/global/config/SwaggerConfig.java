@@ -1,5 +1,8 @@
 package com.neighborhood.global.config;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.neighborhood.global.Schema.ErrorSchema;
+import com.neighborhood.global.exception.ErrorResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,8 +21,11 @@ public class SwaggerConfig {
     //  http://localhost:8080/swagger-ui/index.html
 
     @Bean
-    public Docket api() {
+    public Docket api(TypeResolver typeResolver) {
         return new Docket(DocumentationType.OAS_30)
+                .additionalModels(
+                        typeResolver.resolve(ErrorSchema.class)
+                )
                 .useDefaultResponseMessages(true)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.neighborhood"))

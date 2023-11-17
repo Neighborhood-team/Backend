@@ -1,6 +1,7 @@
 package com.neighborhood.global.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ErrorResponse {
 
+    @Schema(description = "HTTP 상태 코드", example = "500")
     private final String code;
+    @Schema(description = "에러 메세지", example = "서버 내부 에러, 리소스 존재 x, ...")
     private final String message;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
