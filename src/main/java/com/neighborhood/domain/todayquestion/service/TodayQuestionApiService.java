@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -85,7 +86,7 @@ public class TodayQuestionApiService {
     }
 
     @Transactional
-    public ResponseEntity<?> addAnser(Member member, TodayQuestionDto.Answer body) {
+    public ResponseEntity<?> addAnser(Member member, TodayQuestionDto.AnswerForm body) {
 
         TodayQuestion question = todayQuestionRepository
                 .findById(body.getQuestionId())
@@ -96,6 +97,35 @@ public class TodayQuestionApiService {
         todayQuestionAnswerRepository.save(answer);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Transactional
+    public TodayQuestionDto.AnswersOfFamily getFamilyAnswers(Member member, LocalDate date) {
+
+        Family family = member.getFamily();
+        List<TodayQuestionAnswer> answers = todayQuestionAnswerRepository.findAllByFamilyAndCreatedDate(family, date);
+        List<TodayQuestionDto.AnswerOfMember> answerOfMembers = new ArrayList<>();
+
+        for (Member m : family.getMembers()) {
+            TodayQuestionAnswer answer = todayQuestionAnswerRepository.findByMemberAndCreatedDate(m, date).orElse(null);
+            Boolean isAnswered = answer != null;
+            Long answerId = null;
+            String content = null;
+
+            if (isAnswered){
+                answerId = answer.getAnswerId();
+                content = answer.getContent();
+            }
+            answerOfMembers.add(
+                    new TodayQuestionDto.AnswerOfMember(isAnswered, m.getFamilyRole(), m.getName(), answerId, content));
+        }
+
+        return answers.size() == 0 ?
+                new TodayQuestionDto.AnswersOfFamily(
+                        false, null, "이 날에는 아무도 답변하지 않았습니다.", answerOfMembers) :
+                new TodayQuestionDto.AnswersOfFamily(
+                        true, answers.get(0).getTodayQuestion().getQuestionId(), answers.get(0).getTodayQuestion().getContent(), answerOfMembers);
+
     }
 
 

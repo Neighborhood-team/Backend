@@ -53,9 +53,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<TodayQuestionAnswer> todayQuestionAnswers = new ArrayList<>();
 
-    @Builder
-    public Member(String phone) {
-
     public static Member createMember() {
         Member member = new Member();
         return member;

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 public class TodayQuestionApiController implements TodayQuestionApi {
@@ -39,11 +41,19 @@ public class TodayQuestionApiController implements TodayQuestionApi {
         return todayQuestionApiService.getTodayQuestion(member);
     }
 
-    public ResponseEntity<?> addAnswer(Long memberId, TodayQuestionDto.Answer body) {
+    public ResponseEntity<?> addAnswer(Long memberId, TodayQuestionDto.AnswerForm body) {
 
         Member member = memberRepository
                 .findById(memberId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         return todayQuestionApiService.addAnser(member, body);
+    }
+
+    public TodayQuestionDto.AnswersOfFamily getFamilyAnswers(Long memberId, LocalDate date) {
+
+        Member member = memberRepository
+                .findById(memberId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        return todayQuestionApiService.getFamilyAnswers(member, date);
     }
 }
