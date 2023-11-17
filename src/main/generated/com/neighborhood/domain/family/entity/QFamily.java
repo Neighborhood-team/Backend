@@ -28,6 +28,14 @@ public class QFamily extends EntityPathBase<Family> {
 
     public final ListPath<com.neighborhood.domain.member.entity.Member, com.neighborhood.domain.member.entity.QMember> members = this.<com.neighborhood.domain.member.entity.Member, com.neighborhood.domain.member.entity.QMember>createList("members", com.neighborhood.domain.member.entity.Member.class, com.neighborhood.domain.member.entity.QMember.class, PathInits.DIRECT2);
 
+    public final NumberPath<Integer> questionNum = createNumber("questionNum", Integer.class);
+
+    public final DateTimePath<java.time.LocalDateTime> questionUpdatedTime = createDateTime("questionUpdatedTime", java.time.LocalDateTime.class);
+
+    public final ListPath<com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer> todayQuestionAnswers = this.<com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer>createList("todayQuestionAnswers", com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer.class, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer.class, PathInits.DIRECT2);
+
+    public final EnumPath<com.neighborhood.domain.pretest.entity.TestType> todayQuestionType = createEnum("todayQuestionType", com.neighborhood.domain.pretest.entity.TestType.class);
+
     public QFamily(String variable) {
         super(Family.class, forVariable(variable));
     }

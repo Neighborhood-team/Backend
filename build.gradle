@@ -2,7 +2,6 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.16'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.neighborhood'
@@ -56,26 +55,20 @@ task copyGitSubmodule(type: Copy) {
 		into './src/main/resources'
 	}
 }
-def querydslDir = "$buildDir/generated/querydsl"
+// Querydsl 설정부
+def generated = 'src/main/generated'
 
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
+
+// java source set 에 querydsl QClass 위치 추가
 sourceSets {
-	main.java.srcDir querydslDir
-}
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
+	main.java.srcDirs += [ generated ]
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
-}
-
-jar {
-	enabled = false
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+	delete file(generated)
 }
