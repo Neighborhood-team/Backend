@@ -8,14 +8,19 @@ import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.pretest.entity.Result;
 import com.neighborhood.domain.pretest.entity.TestType;
+import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.errorCode.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FamilyApiService {
 
     private final FamilyRepository familyRepository;
@@ -28,6 +33,7 @@ public class FamilyApiService {
      * @param familyCode 가족 고유 코드
      * @return True: 정상적으로 추가 완료 / False: 가족코드에 해당하는 가족 엔티티 조회 불가
      */
+    @Transactional
     public Boolean addMemberToExistingFamily(Member member, String familyCode) {
 
         Family family = familyRepository.findByFamilyCode(familyCode).orElse(null);
@@ -39,13 +45,17 @@ public class FamilyApiService {
         member.setFamily(family);
         memberRepository.save(member);
 
+        updateFamilyTypeScore(family);
+
         return true;
     }
+
 
     /**
      * 새 가족을 만들고 해당 회원을 해당 가족에 추가. 가족의 유형별 총합을 0으로 초기화.
      * @param member
      */
+    @Transactional
     public void addMemberToNewFamily(Member member) {
 
         Family family = new Family();
@@ -70,6 +80,8 @@ public class FamilyApiService {
                 familyTypeScore6,
                 familyTypeScore7));
 
+        updateFamilyTypeScore(family);
+
     }
 
     public void updateFamilyTypeScore(Family family) {
@@ -85,9 +97,36 @@ public class FamilyApiService {
         // 한 가족의 회원 모두 가져옴
         List<Member> members = family.getMembers();
 
+        // 가족 구성원들을 하나씩 순회하면서 각 유형 총합 변수에 더함
         for (Member member : members) {
             Result result = member.getResult();
+            if (result == null) {
+                continue;
+            }
 
+            strongTotal += result.getTypeScores().get(TestType.STRONG);
+            awkwardTotal += result.getTypeScores().get(TestType.AWKWARD);
+            lostTotal += result.getTypeScores().get(TestType.LOST);
+            frozenTotal += result.getTypeScores().get(TestType.FROZEN);
+            thirstyTotal += result.getTypeScores().get(TestType.THIRSTY);
+            confusedTotal += result.getTypeScores().get(TestType.CONFUSED);
+            hiddenTotal += result.getTypeScores().get(TestType.HIDDEN);
         }
+
+        // 새롭게 구한 유형별 총합을 갱신함
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.STRONG)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(strongTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.AWKWARD)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(awkwardTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.LOST)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(lostTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.FROZEN)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(frozenTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.THIRSTY)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(thirstyTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.CONFUSED)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(confusedTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.HIDDEN)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(hiddenTotal);
     }
 }

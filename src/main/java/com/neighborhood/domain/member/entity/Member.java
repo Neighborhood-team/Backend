@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.entity;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.pretest.entity.Result;
+import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -37,6 +40,9 @@ public class Member {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Result result;
+
+    @OneToMany(mappedBy = "member")
+    private List<TodayQuestionAnswer> todayQuestionAnswers = new ArrayList<>();
 
     @Builder
     public Member(String phone) {
