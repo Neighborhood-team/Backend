@@ -5,10 +5,19 @@ import com.neighborhood.domain.family.entity.FamilyTypeScore;
 import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
 import com.neighborhood.domain.family.service.FamilyApiService;
 import com.neighborhood.domain.member.entity.Member;
+import com.neighborhood.domain.pretest.entity.Result;
 import com.neighborhood.domain.pretest.entity.TestType;
+import com.neighborhood.domain.todayquestion.dto.TodayQuestionDto;
+import com.neighborhood.domain.todayquestion.entity.TodayQuestion;
+import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
+import com.neighborhood.domain.todayquestion.repository.TodayQuestionAnswerRepository;
 import com.neighborhood.domain.todayquestion.repository.TodayQuestionRepository;
+import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.errorCode.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +30,22 @@ import java.util.List;
 @Slf4j
 public class TodayQuestionApiService {
 
-    private final FamilyTypeScoreRepository familyTypeScoreRepository;
     private final TodayQuestionRepository todayQuestionRepository;
-    private final FamilyApiService familyApiService;
+    private final TodayQuestionAnswerRepository todayQuestionAnswerRepository;
+    private final FamilyTypeScoreRepository familyTypeScoreRepository;
 
+    /**
+     * 해당 회원 가족의 오늘의 질문 최신화 시간을 확인하고 오늘 이전이면 오늘의 질문 갱신
+     * @param member 해당 회원 엔티티
+     * @return 갱신되었으면 true, 아니면 false
+     */
     @Transactional
     public Boolean checkUpdate(Member member) {
 
         LocalDateTime questionUpdatedTime = member.getFamily().getQuestionUpdatedTime();
-        familyApiService.updateFamilyTypeScore(member.getFamily());
+
+        // TODO: 테스트용으로 추가해놨음. 운영 시에는 해당 메소드 호출 필요 없음
+        updateFamilyTypeScore(member.getFamily());
 
         if (questionUpdatedTime == null) {
             updateTodayQuestion(member);
@@ -45,6 +61,44 @@ public class TodayQuestionApiService {
         }
         return false;
     }
+
+    /**
+     * 해당 회원 가족의 오늘의 질문을 조회
+     * @param member 해당 회원 엔티티
+     * @return 오늘의 질문 dto
+     */
+    @Transactional
+    public TodayQuestionDto.TodayQuestion getTodayQuestion(Member member) {
+
+        TestType todayQuestionType = member.getFamily().getTodayQuestionType();
+        Integer questionNum = member.getFamily().getQuestionNum();
+
+        TodayQuestion todayQuestion = todayQuestionRepository
+                .findAllByTypeOrderByQuestionIdAsc(todayQuestionType).get(questionNum);
+
+        TodayQuestionAnswer todayQuestionAnswer =
+                todayQuestionAnswerRepository.findByMemberAndCreatedDate(member, LocalDate.now()).orElse(null);
+        Boolean isAnswered = todayQuestionAnswer != null;
+
+        return new TodayQuestionDto.TodayQuestion(
+                todayQuestion.getQuestionId(), todayQuestion.getContent(), todayQuestion.getSubText(), isAnswered);
+    }
+
+    @Transactional
+    public ResponseEntity<?> addAnser(Member member, TodayQuestionDto.Answer body) {
+
+        TodayQuestion question = todayQuestionRepository
+                .findById(body.getQuestionId())
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        TodayQuestionAnswer answer =
+                new TodayQuestionAnswer(body.getContent(), LocalDate.now(), question, member.getFamily(), member);
+        todayQuestionAnswerRepository.save(answer);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 
 
     public void updateTodayQuestion(Member member) {
@@ -89,6 +143,55 @@ public class TodayQuestionApiService {
     }
 
 
+    /**
+     * 가족의 유형별 점수 총합을 계산하고 반영함
+     * @param family 대상 가족 엔티티
+     */
+    public void updateFamilyTypeScore(Family family) {
+
+        int strongTotal = 0;
+        int awkwardTotal = 0;
+        int lostTotal = 0;
+        int frozenTotal = 0;
+        int thirstyTotal = 0;
+        int confusedTotal = 0;
+        int hiddenTotal = 0;
+
+        // 한 가족의 회원 모두 가져옴
+        List<Member> members = family.getMembers();
+
+        // 가족 구성원들을 하나씩 순회하면서 각 유형 총합 변수에 더함
+        for (Member member : members) {
+            Result result = member.getResult();
+            if (result == null) {
+                continue;
+            }
+
+            strongTotal += result.getTypeScores().get(TestType.STRONG);
+            awkwardTotal += result.getTypeScores().get(TestType.AWKWARD);
+            lostTotal += result.getTypeScores().get(TestType.LOST);
+            frozenTotal += result.getTypeScores().get(TestType.FROZEN);
+            thirstyTotal += result.getTypeScores().get(TestType.THIRSTY);
+            confusedTotal += result.getTypeScores().get(TestType.CONFUSED);
+            hiddenTotal += result.getTypeScores().get(TestType.HIDDEN);
+        }
+
+        // 새롭게 구한 유형별 총합을 갱신함
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.STRONG)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(strongTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.AWKWARD)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(awkwardTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.LOST)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(lostTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.FROZEN)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(frozenTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.THIRSTY)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(thirstyTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.CONFUSED)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(confusedTotal);
+        familyTypeScoreRepository.findByFamilyAndTestType(family, TestType.HIDDEN)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND)).setScore(hiddenTotal);
+    }
 
 
     /**
