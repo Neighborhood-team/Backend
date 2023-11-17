@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -16,6 +14,7 @@ import javax.persistence.Table;
 public class ContextCopy {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long context_id;
 
     //문장 내용
