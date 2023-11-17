@@ -1,8 +1,12 @@
 package com.neighborhood.domain.todayquestion.dto;
 
 
+import com.neighborhood.domain.member.entity.FamilyRole;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 public class TodayQuestionDto {
 
@@ -27,11 +31,47 @@ public class TodayQuestionDto {
     }
 
     @Data
-    public static class Answer {
+    public static class AnswerForm {
 
         @Schema(description = "질문 식별자", example = "1")
         private Long questionId;
         @Schema(description = "답변 내용", example = "OO라고 생각합니다!")
         private String content;
+
+        public AnswerForm(Long questionId, String content) {
+            this.questionId = questionId;
+            this.content = content;
+        }
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class AnswersOfFamily {
+
+        @Schema(description = "한명 이상 답변 여부", example = "true")
+        private Boolean isAnyoneAnswered;
+        @Schema(description = "한명 이상 답변 시 해당 답변에 해당하는 질문 식별자", example = "1")
+        private Long questionId;
+        @Schema(description = "한명 이상 답변 시 해당 답변에 해당하는 질문", example = "오늘 가장 기뻤던 일은 무엇인가요?")
+        private String questionContent;
+        @Schema(description = "가족 구성원의 답변 리스트")
+        private List<AnswerOfMember> answers;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class AnswerOfMember {
+
+        @Schema(description = "답변 여부", example = "true")
+        private Boolean isAnswered;
+        @Schema(description = "회원의 가족 내 역할", example = "SON")
+        private FamilyRole familyRole;
+        @Schema(description = "회원 이름", example = "김철수")
+        private String memberName;
+        @Schema(description = "답변 식별자", example = "1")
+        private Long answerId;
+        @Schema(description = "답변 내용", example = "ㅇㅇ 같습니다!")
+        private String content;
+    }
+
 }

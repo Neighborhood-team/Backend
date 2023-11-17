@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @Validated
 public interface TodayQuestionApi {
 
@@ -48,5 +50,17 @@ public interface TodayQuestionApi {
     @PostMapping(value = "/{memberId}/today-question/answer", produces = { "application/json" })
    ResponseEntity<?> addAnswer(
             @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
-            @Parameter(in = ParameterIn.DEFAULT, description = "답변 내용", required=true, schema=@Schema()) @RequestBody TodayQuestionDto.Answer body);
+            @Parameter(in = ParameterIn.DEFAULT, description = "답변 내용", required=true, schema=@Schema()) @RequestBody TodayQuestionDto.AnswerForm body);
+
+
+    @Operation(summary = "회원 가족의 오늘의 질문 답변 조회", description = "회원 가족의 오늘의 질문 답변 조회. 가족 답변 여부에 따라 응답이 조금씩 다름")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "답변에 대한 정보가 담긴 dto", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodayQuestionDto.AnswersOfFamily.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @GetMapping(value = "/{memberId}/today-question/family-answers", produces = { "application/json" })
+    TodayQuestionDto.AnswersOfFamily getFamilyAnswers(
+            @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
+            @Parameter(in = ParameterIn.QUERY, description = "조회 날짜", example = "2023-11-17", required=true, schema=@Schema()) @RequestParam("memberId") LocalDate date);
 }
