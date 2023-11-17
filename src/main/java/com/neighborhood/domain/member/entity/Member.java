@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.entity;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.pretest.entity.Result;
+import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -22,8 +25,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column
+    private String name;
+
     @Column(unique = true)
     private String phone;
+
+    @Column(unique = true)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private FamilyRole familyRole;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -38,9 +50,19 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Result result;
 
-    @Builder
-    public Member(String phone) {
+    @OneToMany(mappedBy = "member")
+    private List<TodayQuestionAnswer> todayQuestionAnswers = new ArrayList<>();
+
+    public static Member createMember() {
+        Member member = new Member();
+        return member;
+    }
+
+    public void setMemberInfo(String name, String phone, String email, FamilyRole familyRole) {
+        this.name = name;
         this.phone = phone;
+        this.email = email;
+        this.familyRole = familyRole;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
     }
