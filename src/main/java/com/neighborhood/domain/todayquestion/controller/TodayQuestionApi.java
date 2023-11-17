@@ -1,5 +1,6 @@
 package com.neighborhood.domain.todayquestion.controller;
 
+import com.neighborhood.domain.todayquestion.dto.TodayQuestionDto;
 import com.neighborhood.domain.todayquestion.dto.UpdateTodayQuestionDto;
 import com.neighborhood.global.Schema.ErrorSchema;
 import com.neighborhood.global.exception.ErrorResponse;
@@ -13,8 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Validated
 public interface TodayQuestionApi {
@@ -27,4 +27,26 @@ public interface TodayQuestionApi {
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @PutMapping(value = "/{memberId}/today-question", produces = { "application/json" })
     UpdateTodayQuestionDto updateTodayQuestion(@Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId);
+
+
+    @Operation(summary = "오늘의 질문 조회", description = "해당 회원 가족의 오늘의 질문 조회. 답변 여부에 따라 응답 차이 있음.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "오늘의 질문 내용/placeholder/해당 회원의 답변 유무", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodayQuestionDto.TodayQuestion.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @GetMapping(value = "/{memberId}/today-question", produces = { "application/json" })
+    TodayQuestionDto.TodayQuestion getTodayQuestion(@Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId);
+
+
+    @Operation(summary = "오늘의 질문 답변 작성", description = "해당 회원 가족의 오늘의 질문 답변 등록")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "등록 성공"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @PostMapping(value = "/{memberId}/today-question/answer", produces = { "application/json" })
+   ResponseEntity<?> addAnswer(
+            @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
+            @Parameter(in = ParameterIn.DEFAULT, description = "답변 내용", required=true, schema=@Schema()) @RequestBody TodayQuestionDto.Answer body);
 }
