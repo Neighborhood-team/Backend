@@ -8,14 +8,16 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class MemberResponseDto {
     Long memberId;
+    String name;
     String phone;
-    String createdDate;
-    String modifiedDate;
+    String email;
+    String familyRole;
 
     public MemberResponseDto(Member member) {
         this.memberId = member.getMemberId();
+        this.name = member.getName();
         this.phone = member.getPhone();
-        this.createdDate = member.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-        this.modifiedDate = member.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        this.email = member.getEmail();
+        this.familyRole = String.valueOf(member.getFamilyRole());
     }
 }

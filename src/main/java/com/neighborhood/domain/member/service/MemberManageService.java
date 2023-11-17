@@ -20,8 +20,12 @@ public class MemberManageService {
 
     @Transactional
     public MemberResponseDto save(MemberSaveRequestDto requestDto) {
-        Member member = requestDto.toEntity();
+        Member member = Member.createMember();
+
+        member.setMemberInfo(requestDto.getName(), requestDto.getPhone(), requestDto.getEmail(), requestDto.getFamilyRole());
+
         memberRepository.save(member);
+
         return new MemberResponseDto(member);
     }
 
@@ -32,4 +36,5 @@ public class MemberManageService {
 
         return memberId;
     }
+
 }
