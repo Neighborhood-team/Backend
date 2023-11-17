@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -62,5 +63,5 @@ public interface TodayQuestionApi {
     @GetMapping(value = "/{memberId}/today-question/family-answers", produces = { "application/json" })
     TodayQuestionDto.AnswersOfFamily getFamilyAnswers(
             @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
-            @Parameter(in = ParameterIn.QUERY, description = "조회 날짜", example = "2023-11-17", required=true, schema=@Schema()) @RequestParam("memberId") LocalDate date);
+            @Parameter(in = ParameterIn.QUERY, description = "조회 날짜", example = "2023-11-17", required=true) @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date);
 }
