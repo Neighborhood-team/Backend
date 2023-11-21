@@ -24,6 +24,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 public class LoginSMSService {
+    //@Value("${spring.jwt.secret}")
+    @Value("${coolsms.api.key}")
+    private String coolSMSKey;
+
+    @Value("${coolsms.api.secret}")
+    private String coolSMSSecret;
+
+    @Value("${coolsms.api.domain}")
+    private String coolSMSDomain;
 
     private final RedisUtil redisUtil;
     private final LoginService loginService;
@@ -32,7 +41,7 @@ public class LoginSMSService {
 
     public SingleMessageSentResponse sendSMS(String phone) {
         Long smsAuthCodeExpireTime = 300L; // 인증번호 유효시간 5분
-        DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("apikey", "apisecretkey", "domain"); // 일단 임시
+        DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(coolSMSKey, coolSMSSecret, coolSMSDomain);
         Message message = new Message();
         String smsAuthCode = RandomCodeUtil.generateAuthCode(6);
         // 발신번호 및 수신번호(phone)는 반드시 01012345678 형태로 입력되어야 함
