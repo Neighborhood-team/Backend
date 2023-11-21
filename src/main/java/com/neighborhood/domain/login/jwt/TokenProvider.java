@@ -66,7 +66,7 @@ public class TokenProvider {
             return Jwts.builder()
                     .setClaims(claims)
                     .setIssuedAt(now)
-                    .setExpiration(new Date(now.getTime() + tokenValidTime))
+                    .setExpiration(new Date(now.getTime() + tokenValidTime * 1000L))
                     .signWith(SignatureAlgorithm.HS512, secretKey)
                     .compact();
         }

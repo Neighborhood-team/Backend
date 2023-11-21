@@ -6,7 +6,6 @@ import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.entity.Member;
-import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.member.service.MemberManageService;
 import com.neighborhood.domain.pretest.entity.TestType;
 import com.neighborhood.domain.todayquestion.service.TodayQuestionApiService;
@@ -23,7 +22,6 @@ import java.util.List;
 public class FamilyApiService {
 
     private final FamilyRepository familyRepository;
-    private final MemberRepository memberRepository;
     private final FamilyTypeScoreRepository familyTypeScoreRepository;
     private final TodayQuestionApiService todayQuestionApiService;
     private final MemberManageService memberManageService;
