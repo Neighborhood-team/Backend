@@ -11,17 +11,22 @@ import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.LoginErrorCode;
 import com.neighborhood.global.exception.errorCode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MemberManageService {
     private final MemberRepository memberRepository;
     private final FamilyRepository familyRepository;
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
@@ -50,7 +55,7 @@ public class MemberManageService {
     @Transactional
     public MemberResponseDto update(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = findMember(memberId);
-        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), requestDto.getBirthDate());
+        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
 
         if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
             throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);

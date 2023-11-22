@@ -8,8 +8,12 @@ import com.neighborhood.global.config.ResponseApiMessage;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +24,7 @@ public class MemberController extends BaseController {
     private final MemberManageService memberManageService;
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<ResponseApiMessage> delete(@PathVariable Long memberId) {
+    public ResponseEntity<?> delete(@PathVariable Long memberId) {
         Long deletedMemberId = memberManageService.delete(memberId);
 
         return sendResponseHttpByJson(SUCCESS_CODE, "Member deleted", deletedMemberId);
