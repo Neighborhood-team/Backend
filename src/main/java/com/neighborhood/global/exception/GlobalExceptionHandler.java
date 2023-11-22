@@ -1,6 +1,8 @@
 package com.neighborhood.global.exception;
 
 import com.neighborhood.global.exception.errorCode.CommonErrorCode;
+import com.neighborhood.global.exception.errorCode.JwtErrorCode;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
         log.warn("handleIllegalArgument", e);
         ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
+        return handleExceptionInternal(errorCode, e.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Object> handleExpiredJwt(ExpiredJwtException e) {
+        log.warn("handleExpiredJwt", e);
+        ErrorCode errorCode = JwtErrorCode.ACCESS_TOKEN_EXPIRED;
         return handleExceptionInternal(errorCode, e.getMessage());
     }
 

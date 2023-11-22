@@ -15,4 +15,13 @@ public class RandomCodeUtil {
         }
         return randomCode.toString();
     }
+
+    public static String generateAuthCode(int size) {
+        Random rnd = new Random();
+        StringBuffer randomCode=new StringBuffer();
+        for (int i = 1; i <= size; i++) {
+            randomCode.append(rnd.nextInt(10));
+        }
+        return randomCode.toString();
+    }
 }
