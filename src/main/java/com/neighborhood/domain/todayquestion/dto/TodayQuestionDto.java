@@ -5,6 +5,7 @@ import com.neighborhood.domain.member.entity.FamilyRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class TodayQuestionDto {
     }
 
     @Data
+    @NoArgsConstructor
     public static class AnswerForm {
 
         @Schema(description = "질문 식별자", example = "1")
@@ -46,6 +48,7 @@ public class TodayQuestionDto {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class AnswersOfFamily {
 
         @Schema(description = "한명 이상 답변 여부", example = "true")

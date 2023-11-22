@@ -7,28 +7,25 @@ INSERT INTO type_image (image_id, image_name, image_url) VALUES(5, 'Thirsty.png'
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(6, 'Confused.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Confused.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(7, 'Hidden.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Hidden.png')
 
-
 -- 가족
-INSERT INTO capstone.family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
-
-
+INSERT INTO localneighborhood.family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
 -- 가족 유형 점수 총합
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (3, 0, 'LOST', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (4, 0, 'FROZEN', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (5, 0, 'THIRSTY', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (6, 0, 'CONFUSED', 1)
-INSERT INTO capstone.family_type_score (score_id, score, test_type, family_id) VALUES (7, 0, 'HIDDEN', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (3, 0, 'LOST', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (4, 0, 'FROZEN', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (5, 0, 'THIRSTY', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (6, 0, 'CONFUSED', 1)
+INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (7, 0, 'HIDDEN', 1)
 
 
 -- 회원
-INSERT INTO capstone.member (member_id, created_date, modified_date, phone, family_id) VALUES (1, '2022-09-17 12:52:30.000000', null, '010-1234-1234', 1)
-INSERT INTO capstone.member (member_id, created_date, modified_date, phone, family_id) VALUES (2, '2022-09-17 12:52:30.000000', null, '010-2345-2345', 1)
-
+INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
+INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
+INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
 
 -- 유형 테스트 결과 --
-INSERT INTO capstone.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'ABC123', 'STRONG', 0, 1)
+INSERT INTO localneighborhood.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'ABC123', 'STRONG', 0, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 0)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 2)
@@ -37,7 +34,7 @@ INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) 
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 5)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 6)
 
-INSERT INTO capstone.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'ABC123', 'FROZEN', 3, 2)
+INSERT INTO localneighborhood.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'ABC123', 'FROZEN', 3, 2)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 11, 0)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 11, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 12, 2)
@@ -45,7 +42,6 @@ INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) 
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 13, 4)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 10, 5)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 11, 6)
-
 
 -- 오늘의 질문 목록 --
 INSERT INTO today_question (question_id, content, sub_text, type) VALUES(1, '우리 가족 중 가장 이성적인 사람은 누구인가요?', '이유와 함께 답변을 작성해주세요!', 'FROZEN')
