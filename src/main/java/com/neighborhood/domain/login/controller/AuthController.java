@@ -35,4 +35,10 @@ public class AuthController {
 
         return responseDto;
     }
+
+    @PostMapping("/testToken/{memberId}")
+    public LoginResponseDto provideTestToken(@PathVariable Long memberId) {
+        return loginSMSService.provideTestToken(memberId);
+    }
+
 }
