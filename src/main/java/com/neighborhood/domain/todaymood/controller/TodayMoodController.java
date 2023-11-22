@@ -1,7 +1,5 @@
 package com.neighborhood.domain.todaymood.controller;
 
-import com.neighborhood.domain.member.dto.MemberResponseDto;
-import com.neighborhood.domain.member.dto.MemberSaveRequestDto;
 import com.neighborhood.domain.todaymood.dto.TodayMoodDto;
 import com.neighborhood.domain.todaymood.service.TodayMoodService;
 import lombok.RequiredArgsConstructor;
