@@ -4,11 +4,17 @@ import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
+import com.neighborhood.domain.member.entity.FamilyRole;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
+import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.errorCode.LoginErrorCode;
+import com.neighborhood.global.exception.errorCode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -46,6 +52,13 @@ public class MemberManageService {
         Member member = findMember(memberId);
         member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), requestDto.getBirthDate());
 
+        if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
+            throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);
+        }
+        if(requestDto.getFamilyRole().equals(FamilyRole.MOM) && memberRepository.existsByFamilyRole(FamilyRole.MOM)) {
+            throw new RestApiException(MemberErrorCode.MOM_ALREADY_EXISTS);
+        }
+
         return new MemberResponseDto(member);
     }
 
@@ -60,9 +73,14 @@ public class MemberManageService {
     @Transactional
     public String findFirstMemberInFamily(String familyCode) {
         Family family = findFamily(familyCode);
-        Member member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family).orElse(null);
+        Optional<Member> member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
 
-        return member.getName();
+        if (member.isPresent()) {
+            return member.get().getName();
+        }
+        else {
+            throw new RestApiException(MemberErrorCode.FAMILY_NOT_FOUND);
+        }
     }
 
 }
