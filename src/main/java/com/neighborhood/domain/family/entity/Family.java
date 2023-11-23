@@ -5,6 +5,7 @@ import com.neighborhood.domain.pretest.entity.TestType;
 import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import com.neighborhood.global.util.RandomCodeUtil;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;

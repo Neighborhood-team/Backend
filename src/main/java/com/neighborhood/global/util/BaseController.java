@@ -1,4 +1,4 @@
-package com.neighborhood.domain.pretest.controller;
+package com.neighborhood.global.util;
 
 import com.neighborhood.global.config.ResponseApiMessage;
 import org.springframework.http.HttpHeaders;
