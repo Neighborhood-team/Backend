@@ -12,9 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -40,7 +38,7 @@ public class TodayMoodService {
     }
 
     //조회기능 null값 예외처리해줘야함 + 생년월일 기준 sort해서 보내줘야함
-    public List<?> getFamilyMoodList(Long memberId) {
+    public List<TodayMoodListDto> getFamilyMoodList(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         List<Member> members = memberRepository.findByFamily_FamilyId(member.getFamily().getFamilyId());
         List<TodayMoodListDto> resDtos = new ArrayList<>();
@@ -48,23 +46,24 @@ public class TodayMoodService {
         for (int i = 0; i < members.size(); i++) {
             TodayMood familyMood = todayMoodRepository.findByMember_MemberId(members.get(i).getMemberId());
             if (familyMood != null) {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName())
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(members.get(i).getBirthDate())
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage()).mood(familyMood.getMood()).build();
                 resDtos.add(todayMoodListDto);
             } else {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName())
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(members.get(i).getBirthDate())
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(null).message(null).mood(null).build();
                 resDtos.add(todayMoodListDto);
             }
             }
+            Collections.sort(resDtos, Comparator.comparing(TodayMoodListDto::getBirthDate));
             //생년월일 sort하면 됌
                 return resDtos;
         }
 
 
     //수정기능 id는 path변수로 받기(todaymood)+위 로직 수정해서 id값도 같이 보내게 수정하기
-    public Long updateTodayMood(TodayMoodUpdateDto todayMoodUpdateDto, Long id){
-        TodayMood todayMood = todayMoodRepository.findById(id).orElseThrow();
+    public Long updateTodayMood(TodayMoodUpdateDto todayMoodUpdateDto){
+        TodayMood todayMood = todayMoodRepository.findById(todayMoodUpdateDto.getId()).orElseThrow();
         todayMoodUpdateDto.updateToDto(todayMood,todayMoodUpdateDto);
 
         return todayMood.getTodayMood_id();

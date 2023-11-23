@@ -16,14 +16,17 @@ public class TodayMoodListDto {
 
     private String memberName;
 
+    private String birthDate;
+
     private String memberRole;
 
     @Builder
-    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole) {
+    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole, String birthDate) {
         this.moodId = moodId;
         this.mood = mood;
         this.message = message;
         this.memberName = memberName;
         this.memberRole = memberRole;
+        this.birthDate = birthDate;
     }
 }

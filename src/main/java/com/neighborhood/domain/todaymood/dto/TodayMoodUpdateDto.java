@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class TodayMoodUpdateDto {
 
+    private Long id;
     //happy, calm, excited, sad, Sad, anger, anxiety
     private String mood;
 
