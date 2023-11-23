@@ -55,6 +55,7 @@ public class WebSecurityConfig {
             "/webjars/**",
             "/swagger-ui/**",
             "/v2/api-docs",
-            "/v3/api-docs"
+            "/v3/api-docs",
+            "/pretest/**"
     };
 }
