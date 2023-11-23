@@ -3,10 +3,10 @@ package com.neighborhood.domain.pretest.controller;
 import com.neighborhood.domain.pretest.dto.ResultResponseDto;
 import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
 import com.neighborhood.domain.pretest.service.ResultManageService;
-import com.neighborhood.global.config.ResponseApiMessage;
 import com.neighborhood.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +16,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("pretest/result")
 @Log4j2
-public class ResultController extends BaseController {
-    private final static int SUCCESS_CODE = 200;
+public class ResultController implements PretestApi {
     private final ResultManageService resultManageService;
     private final S3Util s3Util;
 
@@ -29,10 +28,10 @@ public class ResultController extends BaseController {
     }
 
     @DeleteMapping("/{resultId}")
-    public ResponseEntity<ResponseApiMessage> delete(@PathVariable Long resultId) {
+    public ResponseEntity<?> delete(@PathVariable Long resultId) {
         Long deletedResultId = resultManageService.delete(resultId);
 
-        return sendResponseHttpByJson(SUCCESS_CODE, "Pretest Result deleted", deletedResultId);
+        return new ResponseEntity<>(deletedResultId, HttpStatus.OK);
     }
 
     @GetMapping("/test-count")
