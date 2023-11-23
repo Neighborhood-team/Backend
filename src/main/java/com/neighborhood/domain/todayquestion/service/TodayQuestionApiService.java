@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -106,7 +108,9 @@ public class TodayQuestionApiService {
         List<TodayQuestionAnswer> answers = todayQuestionAnswerRepository.findAllByFamilyAndCreatedDate(family, date);
         List<TodayQuestionDto.AnswerOfMember> answerOfMembers = new ArrayList<>();
 
-        for (Member m : family.getMembers()) {
+        for (Member m : family.getMembers().stream()
+                .sorted(Comparator.comparing(Member::getBirthDate))
+                .collect(Collectors.toList())) {
             TodayQuestionAnswer answer = todayQuestionAnswerRepository.findByMemberAndCreatedDate(m, date).orElse(null);
             Boolean isAnswered = answer != null;
             Long answerId = null;
