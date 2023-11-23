@@ -1,5 +1,6 @@
 package com.neighborhood.domain.member.controller;
 
+import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.domain.member.service.MemberManageService;
@@ -31,10 +32,8 @@ public class MemberController extends BaseController {
     }
 
     @GetMapping("/name/{familyCode}")
-    public String findFirstMemberInFamily(@PathVariable String familyCode) {
-        String firstMemberName = memberManageService.findFirstMemberInFamily(familyCode);
-
-        return firstMemberName;
+    public MemberNameResponseDto findFirstMemberInFamily(@PathVariable String familyCode) {
+        return memberManageService.findFirstMemberInFamily(familyCode);
     }
 
     @PutMapping("/setInfo/{memberId}")
