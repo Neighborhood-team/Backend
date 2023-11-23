@@ -45,6 +45,7 @@ public class TodayMoodService {
 
         for (int i = 0; i < members.size(); i++) {
             TodayMood familyMood = todayMoodRepository.findByMember_MemberId(members.get(i).getMemberId());
+            System.out.println("++++++++++++++++++++++++++++++");
             if (familyMood != null) {
                 TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(members.get(i).getBirthDate())
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage()).mood(familyMood.getMood()).build();
@@ -55,7 +56,7 @@ public class TodayMoodService {
                 resDtos.add(todayMoodListDto);
             }
             }
-            Collections.sort(resDtos, Comparator.comparing(TodayMoodListDto::getBirthDate));
+            Collections.sort(resDtos, (mood1, mood2) -> mood1.getBirthDate().compareTo(mood2.getBirthDate()));
             //생년월일 sort하면 됌
                 return resDtos;
         }

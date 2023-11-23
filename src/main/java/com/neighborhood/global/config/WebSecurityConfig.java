@@ -56,6 +56,7 @@ public class WebSecurityConfig {
             "/swagger-ui/**",
             "/v2/api-docs",
             "/v3/api-docs",
-            "/pretest/**"
+            "/pretest/**",
+            "/todaymood/**"
     };
 }
