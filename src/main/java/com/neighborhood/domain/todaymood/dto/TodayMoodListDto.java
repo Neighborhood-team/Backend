@@ -18,12 +18,12 @@ public class TodayMoodListDto {
 
     private String memberName;
 
-    private LocalDate birthDate;
+    private String birthDate;
 
     private String memberRole;
 
     @Builder
-    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole, LocalDate birthDate) {
+    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole, String birthDate) {
         this.moodId = moodId;
         this.mood = mood;
         this.message = message;

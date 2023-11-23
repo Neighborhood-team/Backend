@@ -56,7 +56,7 @@ public class MemberManageService {
     @Transactional
     public MemberResponseDto update(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = findMember(memberId);
-        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
+        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter),requestDto.getFcmTocken());
 
         if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
             throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);

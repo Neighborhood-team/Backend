@@ -19,4 +19,7 @@ public class MemberUpdateRequestDto {
     FamilyRole familyRole;
     @Schema(description = "사용자 생년월일", example = "1999-01-01")
     String birthDate;
+    @Schema(description = "사용지 firebase 토큰", example = "암호화된 토큰")
+    String fcmTocken;
+
 }

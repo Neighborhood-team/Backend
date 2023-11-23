@@ -40,6 +40,8 @@ public class Member implements UserDetails {
     @Column
     private LocalDate birthDate;
 
+    private String fcmToken;
+
     @CreatedDate
     private LocalDateTime createdDate;
 
@@ -61,12 +63,13 @@ public class Member implements UserDetails {
         return member;
     }
 
-    public void updateMemberInfo(String name, FamilyRole familyRole, LocalDate birthDate) {
+    public void updateMemberInfo(String name, FamilyRole familyRole, LocalDate birthDate, String fcmToken) {
         this.name = name;
         this.familyRole = familyRole;
         this.birthDate = birthDate;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
+        this.fcmToken = fcmToken;
     }
 
     public void setMemberPhone(String phone) {

@@ -32,7 +32,7 @@ public class TodayMoodService {
         return todayMood.getTodayMood_id();
     }
 
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "0 0 18 * * *")
     public void deleteScheduler(){
         todayMoodRepository.deleteAll();
     }
@@ -45,13 +45,12 @@ public class TodayMoodService {
 
         for (int i = 0; i < members.size(); i++) {
             TodayMood familyMood = todayMoodRepository.findByMember_MemberId(members.get(i).getMemberId());
-            System.out.println("++++++++++++++++++++++++++++++");
             if (familyMood != null) {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(members.get(i).getBirthDate())
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage()).mood(familyMood.getMood()).build();
                 resDtos.add(todayMoodListDto);
             } else {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(members.get(i).getBirthDate())
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(null).message(null).mood(null).build();
                 resDtos.add(todayMoodListDto);
             }
