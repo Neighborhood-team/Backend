@@ -20,9 +20,9 @@ INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, fam
 
 
 -- 회원
-INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
-INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
-INSERT INTO localneighborhood.member (member_id, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
+INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '1972-03-14', '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
+INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '1971-06-21','2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
+INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '1999-06-21', '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
 
 -- 유형 테스트 결과 --
 INSERT INTO localneighborhood.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'D1F2G3', 'STRONG', 0, 1)

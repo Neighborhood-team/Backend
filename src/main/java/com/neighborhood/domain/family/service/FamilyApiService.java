@@ -77,7 +77,8 @@ public class FamilyApiService {
         FamilyTypeScore familyTypeScore5 = new FamilyTypeScore(TestType.THIRSTY, family);
         FamilyTypeScore familyTypeScore6 = new FamilyTypeScore(TestType.CONFUSED, family);
         FamilyTypeScore familyTypeScore7 = new FamilyTypeScore(TestType.HIDDEN, family);
-        familyTypeScoreRepository.saveAll(List.of(
+
+        family.getFamilyTypeScores().addAll(List.of(
                 familyTypeScore1,
                 familyTypeScore2,
                 familyTypeScore3,
