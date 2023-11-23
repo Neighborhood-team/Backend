@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.service;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
+import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.domain.member.entity.FamilyRole;
@@ -76,16 +77,11 @@ public class MemberManageService {
     }
 
     @Transactional
-    public String findFirstMemberInFamily(String familyCode) {
+    public MemberNameResponseDto findFirstMemberInFamily(String familyCode) {
         Family family = findFamily(familyCode);
-        Optional<Member> member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
+        Member member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
 
-        if (member.isPresent()) {
-            return member.get().getName();
-        }
-        else {
-            throw new RestApiException(MemberErrorCode.FAMILY_NOT_FOUND);
-        }
+        return new MemberNameResponseDto(member);
     }
 
 }
