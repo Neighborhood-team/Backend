@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class Member implements UserDetails {
     private FamilyRole familyRole;
 
     @Column
-    private String birthDate;
+    private LocalDate birthDate;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -60,7 +61,7 @@ public class Member implements UserDetails {
         return member;
     }
 
-    public void updateMemberInfo(String name, FamilyRole familyRole, String birthDate) {
+    public void updateMemberInfo(String name, FamilyRole familyRole, LocalDate birthDate) {
         this.name = name;
         this.familyRole = familyRole;
         this.birthDate = birthDate;

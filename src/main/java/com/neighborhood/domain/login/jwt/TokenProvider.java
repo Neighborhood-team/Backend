@@ -33,8 +33,8 @@ public class TokenProvider {
     private String secretKey;
     private final CustomUserDetailsService userDetailsService;
     private final RedisUtil redisUtil;
-    private static long accessTokenValidTime = 60L; // 테스트용 1분
-    private static long refreshTokenValidTime = 3 * 60L; // 테스트용 3분
+    private static long accessTokenValidTime = 3 * 24 * 60 * 60L; // 3일   60L = 1분
+    private static long refreshTokenValidTime = 2 * 7 * 24 * 60 * 60L; // 2주
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));

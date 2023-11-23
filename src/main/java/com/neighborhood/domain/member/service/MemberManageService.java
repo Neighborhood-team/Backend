@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.service;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
+import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.domain.member.entity.FamilyRole;
@@ -11,17 +12,22 @@ import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.LoginErrorCode;
 import com.neighborhood.global.exception.errorCode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class MemberManageService {
     private final MemberRepository memberRepository;
     private final FamilyRepository familyRepository;
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
@@ -50,7 +56,7 @@ public class MemberManageService {
     @Transactional
     public MemberResponseDto update(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = findMember(memberId);
-        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), requestDto.getBirthDate());
+        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
 
         if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
             throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);
@@ -71,16 +77,11 @@ public class MemberManageService {
     }
 
     @Transactional
-    public String findFirstMemberInFamily(String familyCode) {
+    public MemberNameResponseDto findFirstMemberInFamily(String familyCode) {
         Family family = findFamily(familyCode);
-        Optional<Member> member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
+        Member member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
 
-        if (member.isPresent()) {
-            return member.get().getName();
-        }
-        else {
-            throw new RestApiException(MemberErrorCode.FAMILY_NOT_FOUND);
-        }
+        return new MemberNameResponseDto(member);
     }
 
 }

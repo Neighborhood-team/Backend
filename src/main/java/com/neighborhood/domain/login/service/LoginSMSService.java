@@ -7,6 +7,7 @@ import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.member.service.MemberManageService;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.LoginErrorCode;
+import com.neighborhood.global.exception.errorCode.MemberErrorCode;
 import com.neighborhood.global.util.RandomCodeUtil;
 import com.neighborhood.global.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +78,7 @@ public class LoginSMSService {
         }
         // 기존 사용자의 경우 save 안함
         member = memberRepository.findByPhone(requestDto.getPhone()).orElseThrow(() ->
-                new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                new RestApiException(MemberErrorCode.MEMBER_NOT_FOUND)
         );
 
         Long logInMemberId = member.getMemberId();
@@ -91,6 +92,12 @@ public class LoginSMSService {
 
     private boolean isSMSAuthCodeExpired(LoginRequestDto requestDto) {
         return redisUtil.hasData(requestDto.getPhone());
+    }
+
+    // 테스트시 사용할 토큰 발급용 메소드 (운영시 삭제)
+    public LoginResponseDto provideTestToken(Long memberId) {
+        String stringMemberId = String.valueOf(memberId);
+        return loginService.login(stringMemberId);
     }
 
 }

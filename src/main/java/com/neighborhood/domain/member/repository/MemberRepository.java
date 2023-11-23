@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findFirstByFamilyOrderByCreatedDateAsc(Family family);
+    Member findFirstByFamilyOrderByCreatedDateAsc(Family family);
 
     Optional<Member> findByPhone(String phone);
 
