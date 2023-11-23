@@ -2,7 +2,7 @@ package com.neighborhood.domain.contextcopy.controller;
 
 
 import com.neighborhood.domain.contextcopy.service.ContextCopyService;
-import com.neighborhood.domain.pretest.controller.BaseController;
+import com.neighborhood.global.util.BaseController;
 import com.neighborhood.global.config.ResponseApiMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Random;
 
 
 @RestController
