@@ -8,24 +8,24 @@ INSERT INTO type_image (image_id, image_name, image_url) VALUES(6, 'Confused.png
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(7, 'Hidden.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Hidden.png')
 
 -- 가족
-INSERT INTO localneighborhood.family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
+INSERT INTO family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
 -- 가족 유형 점수 총합
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (3, 0, 'LOST', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (4, 0, 'FROZEN', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (5, 0, 'THIRSTY', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (6, 0, 'CONFUSED', 1)
-INSERT INTO localneighborhood.family_type_score (score_id, score, test_type, family_id) VALUES (7, 0, 'HIDDEN', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (3, 0, 'LOST', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (4, 0, 'FROZEN', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (5, 0, 'THIRSTY', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (6, 0, 'CONFUSED', 1)
+INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (7, 0, 'HIDDEN', 1)
 
 
 -- 회원
-INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '1972-03-14', '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
-INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '1971-06-21','2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
-INSERT INTO localneighborhood.member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '1999-06-21', '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
+INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '1972-03-14', '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
+INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '1971-06-21','2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
+INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '1999-06-21', '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
 
 -- 유형 테스트 결과 --
-INSERT INTO localneighborhood.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'D1F2G3', 'STRONG', 0, 1)
+INSERT INTO result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'D1F2G3', 'STRONG', 0, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 0)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 2)
@@ -34,7 +34,7 @@ INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) 
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 5)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(1, 8, 6)
 
-INSERT INTO localneighborhood.result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'F4G5GH', 'FROZEN', 3, 2)
+INSERT INTO result (created_date, result_code, result_type, type_number, member_id) VALUES ('2022-11-17 12:42:13.000000', 'F4G5GH', 'FROZEN', 3, 2)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 11, 0)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 11, 1)
 INSERT INTO result_type_scores (result_result_id, type_scores, type_scores_key) VALUES(2, 12, 2)
