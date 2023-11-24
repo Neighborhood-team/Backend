@@ -1,15 +1,15 @@
 -- 유형 테스트 결과 이미지 --
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(1, 'Strong.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Strong.png')
-    INSERT INTO type_image (image_id, image_name, image_url) VALUES(2, 'Awkward.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Awkward.png')
+INSERT INTO type_image (image_id, image_name, image_url) VALUES(2, 'Awkward.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Awkward.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(3, 'Lost.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Lost.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(4, 'Frozen.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Frozen.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(5, 'Thirsty.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Thirsty.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(6, 'Confused.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Confused.png')
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(7, 'Hidden.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Hidden.png')
 
--- 가족
+-- 가족 --
 INSERT INTO family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
--- 가족 유형 점수 총합
+-- 가족 유형 점수 총합 --
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (3, 0, 'LOST', 1)
@@ -19,7 +19,7 @@ INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (6,
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (7, 0, 'HIDDEN', 1)
 
 
--- 회원
+-- 회원 --
 INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (1, '1972-03-14', '2022-09-17 12:52:30.000000', null, '01093401333', 1, "이동환", "MOM")
 INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (2, '1971-06-21','2022-09-18 12:52:30.000000', null, '01023452345', 1, "정세창", "DAD")
 INSERT INTO member (member_id, birth_date, created_date, modified_date, phone, family_id, name, family_role) VALUES (3, '1999-06-21', '2022-09-19 12:52:30.000000', null, '01012345678', 1, "한승준", "SON")
@@ -60,7 +60,14 @@ INSERT INTO today_question (question_id, content, sub_text, type) VALUES(13, '�
 INSERT INTO today_question (question_id, content, sub_text, type) VALUES(14, '이번 주 나의 목표 한 가지만 말하자면?', '사소한 것도 상관 없어요!', 'THIRSTY')
 INSERT INTO today_question (question_id, content, sub_text, type) VALUES(15, '요즘 날 가장 힘들게 하는 것은 무엇인가요?', '사소한 것도 상관 없어요!', 'THIRSTY')
 
---오늘의 기분 목록
+-- 오늘의 기분 목록 --
 INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(1, '안녕 기', '기분짱좋네요',1)
 INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(2, '안녕하세요를', '기분 안좋아',2)
 INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(3, '최고', '상당히 기분 안좋아',3)
+
+-- 스케줄 --
+INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(1, '2023-01-12', '2023-01-12', '저녁 약속', 1)
+INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(2, '2023-01-17', '2023-02-01', '유럽 여행', 2)
+INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(3, '2023-02-10', '2023-02-11', '출장', 1)
+INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(4, '2023-12-14', '2023-02-14', '골프', 1)
+INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(5, '2023-03-10', '2023-03-10', '생일', 3)

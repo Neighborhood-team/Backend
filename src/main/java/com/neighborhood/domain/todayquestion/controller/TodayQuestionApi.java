@@ -1,9 +1,8 @@
 package com.neighborhood.domain.todayquestion.controller;
 
 import com.neighborhood.domain.todayquestion.dto.TodayQuestionDto;
-import com.neighborhood.domain.todayquestion.dto.UpdateTodayQuestionDto;
+import com.neighborhood.global.dto.MessageOnlyResponseDto;
 import com.neighborhood.global.Schema.ErrorSchema;
-import com.neighborhood.global.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,12 +23,12 @@ public interface TodayQuestionApi {
 
     @Operation(summary = "오늘의 질문 갱신", description = "해당 회원 가족의 오늘의 질문 갱신 시간 확인 후 오늘 날짜 아니면 새 질문으로 갱신")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "갱신 여부", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateTodayQuestionDto.class))),
+            @ApiResponse(responseCode = "200", description = "갱신 여부", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageOnlyResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @PutMapping(value = "/{memberId}/today-question", produces = { "application/json" })
-    UpdateTodayQuestionDto updateTodayQuestion(Principal principal);
+    MessageOnlyResponseDto updateTodayQuestion(Principal principal);
 
 
     @Operation(summary = "오늘의 질문 조회", description = "해당 회원 가족의 오늘의 질문 조회. 답변 여부에 따라 응답 차이 있음.")

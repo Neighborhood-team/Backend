@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.entity;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.pretest.entity.Result;
+import com.neighborhood.domain.profile.entity.Schedule;
 import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +58,9 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<TodayQuestionAnswer> todayQuestionAnswers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Schedule> schedules = new ArrayList<>();
 
     public static Member createMember() {
         Member member = new Member();
