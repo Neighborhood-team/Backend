@@ -34,7 +34,7 @@ public interface AuthApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
-    @GetMapping(produces = {"application/json"})
+    @PostMapping(produces = {"application/json"})
     LoginResponseDto verifySMS(
             @Parameter(in = ParameterIn.DEFAULT, description = "로그인에 필요한 정보", required = true, schema = @Schema()) @RequestBody LoginRequestDto requestDto);
 
