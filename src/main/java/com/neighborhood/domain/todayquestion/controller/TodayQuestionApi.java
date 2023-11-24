@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @Validated
@@ -29,7 +30,7 @@ public interface TodayQuestionApi {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @PutMapping(value = "/{memberId}/today-question", produces = { "application/json" })
-    UpdateTodayQuestionDto updateTodayQuestion(@Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId);
+    UpdateTodayQuestionDto updateTodayQuestion(Principal principal);
 
 
     @Operation(summary = "오늘의 질문 조회", description = "해당 회원 가족의 오늘의 질문 조회. 답변 여부에 따라 응답 차이 있음.")
@@ -39,7 +40,7 @@ public interface TodayQuestionApi {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @GetMapping(value = "/{memberId}/today-question", produces = { "application/json" })
-    TodayQuestionDto.TodayQuestion getTodayQuestion(@Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId);
+    TodayQuestionDto.TodayQuestion getTodayQuestion(Principal principal);
 
 
     @Operation(summary = "오늘의 질문 답변 작성", description = "해당 회원 가족의 오늘의 질문 답변 등록")
@@ -50,7 +51,7 @@ public interface TodayQuestionApi {
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @PostMapping(value = "/{memberId}/today-question/answer", produces = { "application/json" })
    ResponseEntity<?> addAnswer(
-            @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
+            Principal principal,
             @Parameter(in = ParameterIn.DEFAULT, description = "답변 내용", required=true, schema=@Schema()) @RequestBody TodayQuestionDto.AnswerForm body);
 
 
@@ -62,6 +63,6 @@ public interface TodayQuestionApi {
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @GetMapping(value = "/{memberId}/today-question/family-answers", produces = { "application/json" })
     TodayQuestionDto.AnswersOfFamily getFamilyAnswers(
-            @Parameter(in = ParameterIn.PATH, description = "멤버의 id", required=true, schema=@Schema()) @PathVariable("memberId") Long memberId,
+            Principal principal,
             @Parameter(in = ParameterIn.QUERY, description = "조회 날짜", example = "2023-11-17", required=true) @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date);
 }
