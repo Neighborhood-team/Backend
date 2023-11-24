@@ -45,9 +45,10 @@ public class MemberManageService {
     }
 
     @Transactional
-    public Member save(String phone) {
+    public Member save(String phone,String fcmTocken) {
         Member member = Member.createMember();
         member.setMemberPhone(phone);
+        member.setFcmToken(fcmTocken);
         memberRepository.save(member);
 
         return member;
@@ -56,7 +57,7 @@ public class MemberManageService {
     @Transactional
     public MemberResponseDto update(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = findMember(memberId);
-        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter),requestDto.getFcmTocken());
+        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
 
         if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
             throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);

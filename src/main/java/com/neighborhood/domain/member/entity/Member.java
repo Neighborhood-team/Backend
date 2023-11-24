@@ -63,17 +63,19 @@ public class Member implements UserDetails {
         return member;
     }
 
-    public void updateMemberInfo(String name, FamilyRole familyRole, LocalDate birthDate, String fcmToken) {
+    public void updateMemberInfo(String name, FamilyRole familyRole, LocalDate birthDate) {
         this.name = name;
         this.familyRole = familyRole;
         this.birthDate = birthDate;
         this.createdDate = LocalDateTime.now();
         this.modifiedDate = LocalDateTime.now();
-        this.fcmToken = fcmToken;
     }
 
     public void setMemberPhone(String phone) {
         this.phone = phone;
+    }
+    public void setFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 
     public void setFamily(Family family) {
