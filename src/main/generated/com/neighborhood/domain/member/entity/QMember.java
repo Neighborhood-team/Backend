@@ -30,6 +30,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final EnumPath<FamilyRole> familyRole = createEnum("familyRole", FamilyRole.class);
 
+    public final StringPath fcmToken = createString("fcmToken");
+
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
 
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = createDateTime("modifiedDate", java.time.LocalDateTime.class);

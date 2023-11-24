@@ -19,4 +19,6 @@ public class MemberUpdateRequestDto {
     FamilyRole familyRole;
     @Schema(description = "사용자 생년월일", example = "1999-01-01")
     String birthDate;
+
+
 }

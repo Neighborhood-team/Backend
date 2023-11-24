@@ -13,4 +13,6 @@ public class LoginRequestDto {
     private String phone;
     @Schema(description = "수신한 SMS 인증번호", example = "123456")
     private String smsAuthCode;
+    @Schema(description = "사용지 firebase 토큰", example = "암호화된 토큰")
+    String fcmTocken;
 }

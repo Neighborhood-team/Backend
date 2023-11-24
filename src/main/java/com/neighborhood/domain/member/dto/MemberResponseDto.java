@@ -23,6 +23,8 @@ public class MemberResponseDto {
     String familyCode;
     @Schema(description = "사용자 생년월일", example = "1999-01-01")
     String birthDate;
+    @Schema(description = "사용지 firebase 토큰", example = "암호화된 토큰")
+    String fcmTocken;
 
     public MemberResponseDto(Member member) {
         this.memberId = member.getMemberId();
@@ -31,5 +33,6 @@ public class MemberResponseDto {
         this.familyRole = String.valueOf(member.getFamilyRole());
         this.familyCode = member.getFamily().getFamilyCode();
         this.birthDate = String.valueOf(member.getBirthDate());
+        this.fcmTocken = member.getFcmToken();
     }
 }

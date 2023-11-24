@@ -40,6 +40,8 @@ public class Member implements UserDetails {
     @Column
     private LocalDate birthDate;
 
+    private String fcmToken;
+
     @CreatedDate
     private LocalDateTime createdDate;
 
@@ -71,6 +73,9 @@ public class Member implements UserDetails {
 
     public void setMemberPhone(String phone) {
         this.phone = phone;
+    }
+    public void setFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 
     public void setFamily(Family family) {

@@ -45,9 +45,10 @@ public class MemberManageService {
     }
 
     @Transactional
-    public Member save(String phone) {
+    public Member save(String phone,String fcmTocken) {
         Member member = Member.createMember();
         member.setMemberPhone(phone);
+        member.setFcmToken(fcmTocken);
         memberRepository.save(member);
 
         return member;

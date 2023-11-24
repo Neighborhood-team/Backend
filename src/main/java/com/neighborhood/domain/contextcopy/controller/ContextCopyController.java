@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("contextcopy")
-public class ContextCopyController extends BaseController {
+public class ContextCopyController extends BaseController implements ContextCopyApi {
 
     private final ContextCopyService contextCopyService;
     private final static int SUCCESS_CODE = 200;
