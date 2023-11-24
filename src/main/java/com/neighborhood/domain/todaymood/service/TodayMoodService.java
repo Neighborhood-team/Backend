@@ -2,7 +2,6 @@ package com.neighborhood.domain.todaymood.service;
 
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
-import com.neighborhood.domain.todaymood.dto.TodayMoodDto;
 import com.neighborhood.domain.todaymood.dto.TodayMoodListDto;
 import com.neighborhood.domain.todaymood.dto.TodayMoodUpdateDto;
 import com.neighborhood.domain.todaymood.entity.TodayMood;
@@ -22,9 +21,9 @@ public class TodayMoodService {
     private final TodayMoodRepository todayMoodRepository;
     private final MemberRepository memberRepository;
 
-    public Long saveTodayMood(TodayMoodDto todayMoodDto){
+    public Long saveTodayMood(TodayMoodUpdateDto todayMoodDto){
 
-        Member member = memberRepository.findById(todayMoodDto.getMemberId()).orElseThrow();
+        Member member = memberRepository.findById(todayMoodDto.getMood_id()).orElseThrow();
         TodayMood todayMood = TodayMood.builder().mood(todayMoodDto.getMood())
                                 .member(member).message(todayMoodDto.getMessage()).build();
         todayMoodRepository.save(todayMood);
@@ -63,7 +62,7 @@ public class TodayMoodService {
 
     //수정기능 id는 path변수로 받기(todaymood)+위 로직 수정해서 id값도 같이 보내게 수정하기
     public Long updateTodayMood(TodayMoodUpdateDto todayMoodUpdateDto){
-        TodayMood todayMood = todayMoodRepository.findById(todayMoodUpdateDto.getId()).orElseThrow();
+        TodayMood todayMood = todayMoodRepository.findById(todayMoodUpdateDto.getMood_id()).orElseThrow();
         todayMoodUpdateDto.updateToDto(todayMood,todayMoodUpdateDto);
 
         return todayMood.getTodayMood_id();

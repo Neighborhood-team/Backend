@@ -1,8 +1,6 @@
 package com.neighborhood.domain.todaymood.entity;
 
 import com.neighborhood.domain.member.entity.Member;
-import com.neighborhood.domain.todaymood.dto.TodayMoodDto;
-import com.neighborhood.domain.todaymood.dto.TodayMoodUpdateDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
