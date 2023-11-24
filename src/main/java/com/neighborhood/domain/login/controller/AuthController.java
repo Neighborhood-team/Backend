@@ -22,7 +22,7 @@ public class AuthController implements AuthApi {
         return response;
     }
 
-    @GetMapping("/login/verify")
+    @PostMapping("/login/verify")
     public LoginResponseDto verifySMS(@RequestBody LoginRequestDto requestDto) {
         LoginResponseDto responseDto = loginSMSService.verifySMS(requestDto);
 
