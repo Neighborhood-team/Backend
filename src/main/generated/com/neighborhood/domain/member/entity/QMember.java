@@ -42,6 +42,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.neighborhood.domain.pretest.entity.QResult result;
 
+    public final ListPath<com.neighborhood.domain.profile.entity.Schedule, com.neighborhood.domain.profile.entity.QSchedule> schedules = this.<com.neighborhood.domain.profile.entity.Schedule, com.neighborhood.domain.profile.entity.QSchedule>createList("schedules", com.neighborhood.domain.profile.entity.Schedule.class, com.neighborhood.domain.profile.entity.QSchedule.class, PathInits.DIRECT2);
+
     public final ListPath<com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer> todayQuestionAnswers = this.<com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer>createList("todayQuestionAnswers", com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer.class, com.neighborhood.domain.todayquestion.entity.QTodayQuestionAnswer.class, PathInits.DIRECT2);
 
     public QMember(String variable) {
