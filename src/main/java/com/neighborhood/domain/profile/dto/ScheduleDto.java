@@ -32,10 +32,10 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class ScheduleList {
 
-        @Schema(description = "오늘 이전 일정 리스트")
-        private List<InquiryForm> beforeToday;
-        @Schema(description = "오늘 이후 일정 리스트")
-        private List<InquiryForm> afterToday;
+        @Schema(description = "이미 끝난 일정 리스트")
+        private List<InquiryForm> finishedSchedules;
+        @Schema(description = "진행중/진행예정 일정 리스트")
+        private List<InquiryForm> notFinishedSchedules;
     }
 
     @Data

@@ -67,6 +67,10 @@ public class TodayQuestionDto {
 
         @Schema(description = "답변 여부", example = "true")
         private Boolean isAnswered;
+        @Schema(description = "회원의 식별자", example = "1")
+        private Long memberId;
+        @Schema(description = "본인 답변인지 여부", example = "true")
+        private Boolean isMe;
         @Schema(description = "회원의 가족 내 역할", example = "SON")
         private FamilyRole familyRole;
         @Schema(description = "회원 이름", example = "김철수")
