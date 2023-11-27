@@ -2,6 +2,9 @@ package com.neighborhood.domain.member.entity;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.pretest.entity.Result;
+import com.neighborhood.domain.profile.dto.PersonalInfoInputDto;
+import com.neighborhood.domain.profile.entity.EmergencyContact;
+import com.neighborhood.domain.profile.entity.PersonalInfo;
 import com.neighborhood.domain.profile.entity.Schedule;
 import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import lombok.Getter;
@@ -62,6 +65,12 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Schedule> schedules = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member")
+    private PersonalInfo personalInfo;
+
+    @OneToMany(mappedBy = "member")
+    private List<EmergencyContact> emergencyContacts = new ArrayList<>();
+
     public static Member createMember() {
         Member member = new Member();
         return member;
@@ -93,22 +102,22 @@ public class Member implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override
