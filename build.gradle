@@ -62,6 +62,7 @@ task copyGitSubmodule(type: Copy) {
 	copy {
 		from './config'
 		include '*.yml'
+		include '*.json'
 		into './src/main/resources'
 	}
 }
