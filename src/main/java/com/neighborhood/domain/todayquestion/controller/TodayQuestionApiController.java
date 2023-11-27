@@ -56,4 +56,10 @@ public class TodayQuestionApiController implements TodayQuestionApi {
 
         return todayQuestionApiService.getFamilyAnswers(member, date);
     }
+
+    @Override
+    public MessageOnlyResponseDto sendAnswerRequestPush(Principal principal, Long memberId) {
+
+        return todayQuestionApiService.sendAnswerRequestPush(memberId);
+    }
 }

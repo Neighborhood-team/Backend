@@ -64,4 +64,16 @@ public interface TodayQuestionApi {
     TodayQuestionDto.AnswersOfFamily getFamilyAnswers(
             Principal principal,
             @Parameter(in = ParameterIn.QUERY, description = "조회 날짜(ex.2023-11-11)", example = "2023-11-11", required=true) @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date);
+
+
+    @Operation(summary = "가족에게 오늘의 질문 답변 제안하기", description = "회원 가족에게 질문 답변을 제안하는 푸시 알림을 전송한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "답변에 대한 정보가 담긴 dto", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageOnlyResponseDto.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @PostMapping(value = "/today-question/send-push/{memberId}", produces = { "application/json" })
+    MessageOnlyResponseDto sendAnswerRequestPush(
+            Principal principal,
+            @Parameter(in = ParameterIn.PATH, description = "푸시알림 대상 회원 식별자 id", example = "1", required=true) @PathVariable("memberId") Long memberId);
 }
