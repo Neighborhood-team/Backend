@@ -46,7 +46,7 @@ public class TodayQuestionApiController implements TodayQuestionApi {
         Member member = memberRepository.findById(Long.parseLong(principal.getName()))
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        return todayQuestionApiService.addAnser(member, body);
+        return todayQuestionApiService.addAnswer(member, body);
     }
 
     public TodayQuestionDto.AnswersOfFamily getFamilyAnswers(Principal principal, LocalDate date) {
