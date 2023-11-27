@@ -24,8 +24,8 @@ public class FCMService {
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         if(member.getFcmToken()!=null){
-            Notification notification = Notification.builder().setTitle(requestDto.getTitle())
-                    .setBody(requestDto.getBody()).build();
+            Notification notification = Notification.builder().setTitle("기분 최신화 요청")
+                    .setBody("가족이 "+member.getName()+"님의 현재 기분을 궁금해해요!").build();
             Message message = Message.builder().setToken(member.getFcmToken())
                     .setNotification(notification).build();
             try{
