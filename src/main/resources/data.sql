@@ -8,7 +8,7 @@ INSERT INTO type_image (image_id, image_name, image_url) VALUES(6, 'Confused.png
 INSERT INTO type_image (image_id, image_name, image_url) VALUES(7, 'Hidden.png', 'https://capstone-project-bucket.s3.ap-northeast-2.amazonaws.com/type-images/Hidden.png')
 
 -- 가족 --
-INSERT INTO family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', null, null, null)
+INSERT INTO family (family_id, family_code, question_num, question_updated_time, today_question_type) VALUES (1, 'ABC123', 0, '2023-11-26', 'FROZEN')
 -- 가족 유형 점수 총합 --
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (1, 0, 'STRONG', 1)
 INSERT INTO family_type_score (score_id, score, test_type, family_id) VALUES (2, 0, 'AWKWARD', 1)

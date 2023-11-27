@@ -14,6 +14,7 @@ import com.neighborhood.domain.todayquestion.repository.TodayQuestionAnswerRepos
 import com.neighborhood.domain.todayquestion.repository.TodayQuestionRepository;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.CommonErrorCode;
+import com.neighborhood.global.exception.errorCode.TodayQuestionErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -88,17 +89,22 @@ public class TodayQuestionApiService {
     }
 
     @Transactional
-    public ResponseEntity<?> addAnser(Member member, TodayQuestionDto.AnswerForm body) {
+    public ResponseEntity<?> addAnswer(Member member, TodayQuestionDto.AnswerForm body) {
 
         TodayQuestion question = todayQuestionRepository
                 .findById(body.getQuestionId())
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        if(todayQuestionAnswerRepository.findByMemberAndCreatedDate(member, LocalDate.now()).orElse((null)) != null){
+            throw new RestApiException(TodayQuestionErrorCode.DUPLICATED_ANSWER_REQUEST);
+        }
 
         TodayQuestionAnswer answer =
                 new TodayQuestionAnswer(body.getContent(), LocalDate.now(), question, member.getFamily(), member);
         todayQuestionAnswerRepository.save(answer);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @Transactional
