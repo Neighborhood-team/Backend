@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResultRepository extends JpaRepository<Result, Long> {
+    Result findByResultCode(String resultCode);
+
+    Result findByMember_MemberId(Long memberId);
 }
