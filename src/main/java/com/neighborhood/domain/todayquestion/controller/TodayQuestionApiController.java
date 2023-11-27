@@ -46,7 +46,7 @@ public class TodayQuestionApiController implements TodayQuestionApi {
         Member member = memberRepository.findById(Long.parseLong(principal.getName()))
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        return todayQuestionApiService.addAnser(member, body);
+        return todayQuestionApiService.addAnswer(member, body);
     }
 
     public TodayQuestionDto.AnswersOfFamily getFamilyAnswers(Principal principal, LocalDate date) {
@@ -55,5 +55,11 @@ public class TodayQuestionApiController implements TodayQuestionApi {
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         return todayQuestionApiService.getFamilyAnswers(member, date);
+    }
+
+    @Override
+    public MessageOnlyResponseDto sendAnswerRequestPush(Principal principal, Long memberId) {
+
+        return todayQuestionApiService.sendAnswerRequestPush(memberId);
     }
 }

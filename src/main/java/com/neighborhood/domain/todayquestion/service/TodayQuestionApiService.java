@@ -4,6 +4,8 @@ import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.entity.FamilyTypeScore;
 import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
 import com.neighborhood.domain.family.service.FamilyApiService;
+import com.neighborhood.domain.firebase.FCMNotificationRequestDto;
+import com.neighborhood.domain.firebase.FCMService;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.pretest.entity.Result;
 import com.neighborhood.domain.pretest.entity.TestType;
@@ -12,8 +14,10 @@ import com.neighborhood.domain.todayquestion.entity.TodayQuestion;
 import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import com.neighborhood.domain.todayquestion.repository.TodayQuestionAnswerRepository;
 import com.neighborhood.domain.todayquestion.repository.TodayQuestionRepository;
+import com.neighborhood.global.dto.MessageOnlyResponseDto;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.CommonErrorCode;
+import com.neighborhood.global.exception.errorCode.TodayQuestionErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +41,7 @@ public class TodayQuestionApiService {
     private final TodayQuestionRepository todayQuestionRepository;
     private final TodayQuestionAnswerRepository todayQuestionAnswerRepository;
     private final FamilyTypeScoreRepository familyTypeScoreRepository;
+    private final FCMService fcmService;
 
     /**
      * 해당 회원 가족의 오늘의 질문 최신화 시간을 확인하고 오늘 이전이면 오늘의 질문 갱신
@@ -88,17 +94,22 @@ public class TodayQuestionApiService {
     }
 
     @Transactional
-    public ResponseEntity<?> addAnser(Member member, TodayQuestionDto.AnswerForm body) {
+    public ResponseEntity<?> addAnswer(Member member, TodayQuestionDto.AnswerForm body) {
 
         TodayQuestion question = todayQuestionRepository
                 .findById(body.getQuestionId())
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        if(todayQuestionAnswerRepository.findByMemberAndCreatedDate(member, LocalDate.now()).orElse((null)) != null){
+            throw new RestApiException(TodayQuestionErrorCode.DUPLICATED_ANSWER_REQUEST);
+        }
 
         TodayQuestionAnswer answer =
                 new TodayQuestionAnswer(body.getContent(), LocalDate.now(), question, member.getFamily(), member);
         todayQuestionAnswerRepository.save(answer);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @Transactional
@@ -121,7 +132,9 @@ public class TodayQuestionApiService {
                 content = answer.getContent();
             }
             answerOfMembers.add(
-                    new TodayQuestionDto.AnswerOfMember(isAnswered, m.getFamilyRole(), m.getName(), answerId, content));
+                    new TodayQuestionDto.AnswerOfMember(
+                            isAnswered, m.getMemberId(), Objects.equals(m.getMemberId(), member.getMemberId()),
+                            m.getFamilyRole(), m.getName(), answerId, content));
         }
 
         return answers.size() == 0 ?
@@ -174,6 +187,20 @@ public class TodayQuestionApiService {
         family.setQuestionNum(family.getQuestionNum()+1);
         family.setQuestionUpdateTime(LocalDateTime.now());
 
+    }
+
+
+    public MessageOnlyResponseDto sendAnswerRequestPush(Long memberId) {
+
+        FCMNotificationRequestDto fcmDto = FCMNotificationRequestDto.builder()
+                .targetId(memberId)
+                .title("공통 질문 답변 요청")
+                .body("가족이 오늘의 질문에 대해 궁금해해요!")
+                .build();
+
+        fcmService.sendNotification(fcmDto);
+
+        return new MessageOnlyResponseDto("답변요청 푸시 알림 전송 성공");
     }
 
 

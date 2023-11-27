@@ -56,6 +56,9 @@ public class Result {
     public void calculateScores(EnumMap<TestType, Integer> typeScores) {
         this.typeScores = new EnumMap<>(typeScores);
     }
+    public void updateMember(Member member){
+        this.member = member;
+    }
 
     public void updateTypeAndDate(String resultType) {
         this.resultType = resultType;
