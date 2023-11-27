@@ -40,3 +40,7 @@ src/main/resources/application.yml
 src/main/resources/application-dev.yml
 src/test/resources/application.yml
 src/main/resources/application-local.yml
+
+
+### fcm 설정 파일 ##
+src/main/resources/firebaseAccountKey.json
