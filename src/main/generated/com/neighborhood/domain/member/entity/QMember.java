@@ -26,6 +26,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final DateTimePath<java.time.LocalDateTime> createdDate = createDateTime("createdDate", java.time.LocalDateTime.class);
 
+    public final ListPath<com.neighborhood.domain.profile.entity.EmergencyContact, com.neighborhood.domain.profile.entity.QEmergencyContact> emergencyContacts = this.<com.neighborhood.domain.profile.entity.EmergencyContact, com.neighborhood.domain.profile.entity.QEmergencyContact>createList("emergencyContacts", com.neighborhood.domain.profile.entity.EmergencyContact.class, com.neighborhood.domain.profile.entity.QEmergencyContact.class, PathInits.DIRECT2);
+
     public final com.neighborhood.domain.family.entity.QFamily family;
 
     public final EnumPath<FamilyRole> familyRole = createEnum("familyRole", FamilyRole.class);
@@ -37,6 +39,8 @@ public class QMember extends EntityPathBase<Member> {
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = createDateTime("modifiedDate", java.time.LocalDateTime.class);
 
     public final StringPath name = createString("name");
+
+    public final com.neighborhood.domain.profile.entity.QPersonalInfo personalInfo;
 
     public final StringPath phone = createString("phone");
 
@@ -65,6 +69,7 @@ public class QMember extends EntityPathBase<Member> {
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.family = inits.isInitialized("family") ? new com.neighborhood.domain.family.entity.QFamily(forProperty("family")) : null;
+        this.personalInfo = inits.isInitialized("personalInfo") ? new com.neighborhood.domain.profile.entity.QPersonalInfo(forProperty("personalInfo"), inits.get("personalInfo")) : null;
         this.result = inits.isInitialized("result") ? new com.neighborhood.domain.pretest.entity.QResult(forProperty("result"), inits.get("result")) : null;
     }
 

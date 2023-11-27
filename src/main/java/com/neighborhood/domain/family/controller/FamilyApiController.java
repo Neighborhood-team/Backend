@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("family")
@@ -33,5 +35,10 @@ public class FamilyApiController extends BaseController implements FamilyApi {
         MemberResponseDto responseDto = familyApiService.addMemberToNewFamily(memberId);
 
         return responseDto;
+    }
+
+    @GetMapping("/allMember/{familyCode}")
+    public List<MemberResponseDto> getAllMembers(@PathVariable String familyCode) {
+        return familyApiService.getAllMembersInFamily(familyCode);
     }
 }
