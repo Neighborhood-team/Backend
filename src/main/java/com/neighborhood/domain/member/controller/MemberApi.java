@@ -1,5 +1,6 @@
 package com.neighborhood.domain.member.controller;
 
+import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
 import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
@@ -49,5 +50,16 @@ public interface MemberApi {
     MemberResponseDto update(
             @Parameter(in = ParameterIn.PATH, description = "가족코드", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId,
             @Parameter(in = ParameterIn.DEFAULT, description = "사용자 개인정보", required = true, schema = @Schema()) @RequestBody MemberUpdateRequestDto requestDto);
+
+
+    @Operation(summary = "가족 내 아빠/엄마 중복여부 체크", description = "해당 사용자의 가족에 이미 아빠 또는 엄마가 존재하면 false, 존재하지 않는다면 true 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "true일 경우 해당 가족관계로 회원가입 가능"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @GetMapping(produces = {"application/json"})
+    Boolean checkDuplicateParents(
+            @Parameter(in = ParameterIn.DEFAULT, description = "가족코드", required = true, schema = @Schema()) @RequestBody MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto);
 
 }

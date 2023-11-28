@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,4 +59,14 @@ public interface AuthApi {
     @PostMapping(produces = {"application/json"})
     LoginResponseDto provideTestToken(
             @Parameter(in = ParameterIn.PATH, description = "db에 이미 등록되어 있는 사용자의 id", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId);
+
+    @Operation(summary = "로그아웃", description = "해당 사용자의 Access, Refresh 토큰을 모두 만료시킴")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그아웃 성공, 로그아웃한 사용자 id 반환"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @DeleteMapping(produces = {"application/json"})
+    ResponseEntity<?> logout(
+            @Parameter(in = ParameterIn.PATH, description = "사용자 id", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId);
 }
