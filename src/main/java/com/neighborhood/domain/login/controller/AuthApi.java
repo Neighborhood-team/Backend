@@ -30,7 +30,7 @@ public interface AuthApi {
 
     @Operation(summary = "SMS 인증번호로 로그인", description = "SMS 인증번호를 받은 전화번호와 받은 인증번호로 로그인")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공, 토큰과 토큰의 사용자 id를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "로그인 성공, 토큰과 토큰의 사용자 id를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -41,7 +41,7 @@ public interface AuthApi {
 
     @Operation(summary = "Access 토큰 재발급", description = "Access 토큰이 만료되었을 때 Refresh 토큰으로 Access 토큰 재발급")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "재발급 성공, 새 토큰과 토큰의 사용자 id를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "재발급 성공, 새 토큰과 토큰의 사용자 id를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -51,7 +51,7 @@ public interface AuthApi {
 
     @Operation(summary = "테스트용 토큰 발급 (운영 시 삭제예정)", description = "개발 단계에서 편의를 위해 사용할 테스트용 토큰 발급 (운영 시 삭제예정)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "테스트 토큰 발급 성공"),
+            @ApiResponse(responseCode = "200", description = "테스트 토큰 발급 성공", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
