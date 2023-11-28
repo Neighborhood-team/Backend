@@ -6,6 +6,7 @@ import com.neighborhood.domain.profile.dto.PersonalInfoInputDto;
 import com.neighborhood.domain.profile.entity.EmergencyContact;
 import com.neighborhood.domain.profile.entity.PersonalInfo;
 import com.neighborhood.domain.profile.entity.Schedule;
+import com.neighborhood.domain.todaymood.entity.TodayMood;
 import com.neighborhood.domain.todayquestion.entity.TodayQuestionAnswer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,17 +60,20 @@ public class Member implements UserDetails {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Result result;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TodayQuestionAnswer> todayQuestionAnswers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private PersonalInfo personalInfo;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<EmergencyContact> emergencyContacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TodayMood> todayMoods = new ArrayList<>();
 
     public static Member createMember() {
         Member member = new Member();

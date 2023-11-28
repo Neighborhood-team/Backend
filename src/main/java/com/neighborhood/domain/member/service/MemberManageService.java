@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.service;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
+import com.neighborhood.domain.login.service.LoginService;
 import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
@@ -31,6 +32,7 @@ public class MemberManageService {
     private final FamilyRepository familyRepository;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final PersonalInfoRepository personalInfoRepository;
+    private final LoginService loginService;
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
@@ -79,6 +81,8 @@ public class MemberManageService {
     @Transactional
     public Long delete(Long memberId) {
         Member member = findMember(memberId);
+        String foundMemberId = String.valueOf(memberId);
+        loginService.logout(foundMemberId);
         memberRepository.delete(member);
 
         return memberId;

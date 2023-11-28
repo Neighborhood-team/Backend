@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Validated
 public interface MemberApi {
-    @Operation(summary = "사용자 삭제", description = "해당 사용자를 삭제 (응답에서 사용할 data 없음)")
+    @Operation(summary = "회원 탈퇴", description = "가족 구성원 관리에서 사용자를 가족에서 방출 할 경우 사용자를 삭제하고 해당 사용자의 토큰을 만료시킴")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "사용자 삭제 성공, 삭제된 사용자 id 반환"),
+            @ApiResponse(responseCode = "200", description = "사용자 탈퇴 성공, 탈퇴된 사용자 id 반환"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
