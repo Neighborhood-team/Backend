@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public interface PersonalInfoApi {
     @Operation(summary = "사용자 상세정보 등록", description = "사용자가 입력한 상세정보를 해당 사용자 프로필에 추가")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "등록 성공, 상세정보를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "등록 성공, 상세정보를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -31,7 +31,7 @@ public interface PersonalInfoApi {
 
     @Operation(summary = "사용자 상세정보 조회", description = "해당 사용자의 프로필 상세정보 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공, 해당 사용자의 상세정보를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "조회 성공, 해당 사용자의 상세정보를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})

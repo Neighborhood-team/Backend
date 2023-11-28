@@ -20,7 +20,7 @@ import java.util.List;
 public interface EmergencyContactApi {
     @Operation(summary = "비상 연락망 등록", description = "사용자가 입력한 비상연락망 정보(이름, 연락처)를 해당 사용자 프로필에 등록")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "등록 성공, 비상연락망 정보를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "등록 성공, 비상연락망 정보를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -32,7 +32,7 @@ public interface EmergencyContactApi {
 
     @Operation(summary = "비상 연락망 수정", description = "사용자가 입력한 정보로 해당 사용자의 비상 연락망 수정")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "수정 성공, 비상연락망 정보를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "수정 성공, 비상연락망 정보를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -45,7 +45,7 @@ public interface EmergencyContactApi {
 
     @Operation(summary = "비상 연락망 조회", description = "해당 사용자의 비상 연락망을 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공, 해당 사용자의 모든 비상연락망을 담은 dto list 반환"),
+            @ApiResponse(responseCode = "200", description = "조회 성공, 해당 사용자의 모든 비상연락망을 담은 dto list 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})

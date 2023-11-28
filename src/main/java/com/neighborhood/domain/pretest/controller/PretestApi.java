@@ -26,7 +26,7 @@ import java.security.Principal;
 public interface PretestApi {
     @Operation(summary = "우리가족유형검사 결과 저장", description = "우리가족유형검사 문항 별 점수 배열로 결과 저장")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "결과 저장 성공, 결과 정보를 담은 dto 반환"),
+            @ApiResponse(responseCode = "200", description = "결과 저장 성공, 결과 정보를 담은 dto 반환", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
@@ -77,7 +77,7 @@ public interface PretestApi {
 
     @Operation(summary = "우리가족유형검사결과에 사용자 추가", description = "암호화된 code를 바탕으로 우리가족유형검사결과에 현재 로그인한 사용자 추가")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "우리가족유형검사결과에 사용자 추가 성공"),
+            @ApiResponse(responseCode = "200", description = "우리가족유형검사결과에 사용자 추가 성공", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
