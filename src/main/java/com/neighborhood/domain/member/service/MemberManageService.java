@@ -3,6 +3,7 @@ package com.neighborhood.domain.member.service;
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.login.service.LoginService;
+import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
 import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
@@ -12,7 +13,6 @@ import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.profile.entity.PersonalInfo;
 import com.neighborhood.domain.profile.repository.PersonalInfoRepository;
 import com.neighborhood.global.exception.RestApiException;
-import com.neighborhood.global.exception.errorCode.LoginErrorCode;
 import com.neighborhood.global.exception.errorCode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -66,14 +66,20 @@ public class MemberManageService {
     @Transactional
     public MemberResponseDto update(Long memberId, MemberUpdateRequestDto requestDto) {
         Member member = findMember(memberId);
-        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
+        Family family = findFamily(member.getFamily().getFamilyCode());
 
-        if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && memberRepository.existsByFamilyRole(FamilyRole.DAD)) {
-            throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);
+        List<Member> members = family.getMembers();
+        for(Member m : members) {
+            if(m.getFamilyRole() == null) break;
+            if(requestDto.getFamilyRole().equals(FamilyRole.DAD) && m.getFamilyRole().equals(FamilyRole.DAD)) {
+                throw new RestApiException(MemberErrorCode.DAD_ALREADY_EXISTS);
+            }
+            else if(requestDto.getFamilyRole().equals(FamilyRole.MOM) && m.getFamilyRole().equals(FamilyRole.MOM)) {
+                throw new RestApiException(MemberErrorCode.MOM_ALREADY_EXISTS);
+            }
         }
-        if(requestDto.getFamilyRole().equals(FamilyRole.MOM) && memberRepository.existsByFamilyRole(FamilyRole.MOM)) {
-            throw new RestApiException(MemberErrorCode.MOM_ALREADY_EXISTS);
-        }
+
+        member.updateMemberInfo(requestDto.getName(), requestDto.getFamilyRole(), LocalDate.parse(requestDto.getBirthDate(), dateTimeFormatter));
 
         return new MemberResponseDto(member);
     }
@@ -95,5 +101,21 @@ public class MemberManageService {
 
         return new MemberNameResponseDto(member);
     }
+
+    public Boolean checkDuplicateParents(MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto) {
+        Member member = findMember(memberCheckDuplicateParentsDto.getMemberId());
+        Family family = findFamily(member.getFamily().getFamilyCode());
+        List<Member> members = family.getMembers();
+        for (Member m : members) {
+            if (memberCheckDuplicateParentsDto.getFamilyRole().equals(FamilyRole.DAD) && m.getFamilyRole().equals(FamilyRole.DAD)) {
+                return false;
+            }
+            else if (memberCheckDuplicateParentsDto.getFamilyRole().equals(FamilyRole.MOM) && m.getFamilyRole().equals(FamilyRole.MOM)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

@@ -1,8 +1,10 @@
 package com.neighborhood.domain.member.controller;
 
+import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
 import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
+import com.neighborhood.domain.member.entity.FamilyRole;
 import com.neighborhood.domain.member.service.MemberManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,5 +33,10 @@ public class MemberController implements MemberApi {
     @PutMapping("/setInfo/{memberId}")
     public MemberResponseDto update(@PathVariable Long memberId, @RequestBody MemberUpdateRequestDto requestDto) {
         return memberManageService.update(memberId, requestDto);
+    }
+
+    @GetMapping("/checkParents")
+    public Boolean checkDuplicateParents(@RequestBody MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto) {
+        return memberManageService.checkDuplicateParents(memberCheckDuplicateParentsDto);
     }
 }
