@@ -12,13 +12,14 @@ public class LoginService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public LoginResponseDto login(String memberId) {
+    public LoginResponseDto login(String memberId, Boolean isNew) {
 
 
         return LoginResponseDto.builder()
                 .accessToken(tokenProvider.createAccessToken(memberId))
                 .refreshToken(tokenProvider.createRefreshToken(memberId))
                 .memberId(memberId)
+                .isNew(isNew)
                 .build();
     }
 

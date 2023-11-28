@@ -17,4 +17,6 @@ public class LoginResponseDto {
     private String refreshToken;
     @Schema(description = "토큰을 가지고 있는 사용자의 id", example = "1")
     private String memberId;
+    @Schema(description = "신규 사용자면 true, 기존 사용자면 false", example = "true")
+    private Boolean isNew;
 }
