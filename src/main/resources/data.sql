@@ -61,9 +61,9 @@ INSERT INTO today_question (question_id, content, sub_text, type) VALUES(14, '�
 INSERT INTO today_question (question_id, content, sub_text, type) VALUES(15, '요즘 날 가장 힘들게 하는 것은 무엇인가요?', '사소한 것도 상관 없어요!', 'THIRSTY')
 
 -- 오늘의 기분 목록 --
-INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(1, '안녕 기', '기분짱좋네요',1)
-INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(2, '안녕하세요를', '기분 안좋아',2)
-INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(3, '최고', '상당히 기분 안좋아',3)
+INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(1, '오늘은 기분이 좋은 날이에요', 'happy',1)
+INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(2, '8시에 학원가요 연락안돼요', 'excited',2)
+INSERT INTO today_mood (today_mood_id, message, mood, member_id) VALUES(3, '오늘 외식 잊지말고 들어오세요', 'anxiety',3)
 
 -- 스케줄 --
 INSERT INTO schedule (schedule_id, start_date, end_date, content, member_id) VALUES(1, '2023-01-12', '2023-01-12', '저녁 약속', 1)
