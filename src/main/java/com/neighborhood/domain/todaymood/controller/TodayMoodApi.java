@@ -30,7 +30,7 @@ public interface TodayMoodApi {
     ResponseEntity<?> saveTodayMood(
             @Parameter(in = ParameterIn.DEFAULT, description = "오늘의 기분 저장에 사용될 데이터 및 회원id", required = true, schema = @Schema()) @RequestBody TodayMoodUpdateDto todayMoodDto);
 
-    @Operation(summary = "가족 오늘의 기분", description = "해당 사용자의 가족 기분정보를 list로 제공합니다. 생년월일순으로 정렬")
+    @Operation(summary = "가족 오늘의 기분", description = "해당 사용자의 가족 기분정보를 list로 제공합니다. 생년월일 순으로 정렬")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "가족의 기분 조회 성공, 해당 list값을 반환"),
             @ApiResponse(responseCode = "401", description = "가족의 기분 조회 실패"),
