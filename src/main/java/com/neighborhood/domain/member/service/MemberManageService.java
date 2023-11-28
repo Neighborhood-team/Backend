@@ -8,6 +8,8 @@ import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.domain.member.entity.FamilyRole;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
+import com.neighborhood.domain.profile.entity.PersonalInfo;
+import com.neighborhood.domain.profile.repository.PersonalInfoRepository;
 import com.neighborhood.global.exception.RestApiException;
 import com.neighborhood.global.exception.errorCode.LoginErrorCode;
 import com.neighborhood.global.exception.errorCode.MemberErrorCode;
@@ -28,6 +30,7 @@ public class MemberManageService {
     private final MemberRepository memberRepository;
     private final FamilyRepository familyRepository;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final PersonalInfoRepository personalInfoRepository;
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
@@ -49,7 +52,11 @@ public class MemberManageService {
         Member member = Member.createMember();
         member.setMemberPhone(phone);
         member.setFcmToken(fcmTocken);
+        PersonalInfo personalInfo = PersonalInfo.createPersonalInfo();
+
         memberRepository.save(member);
+        personalInfoRepository.save(personalInfo);
+        personalInfo.setMember(member);
 
         return member;
     }
