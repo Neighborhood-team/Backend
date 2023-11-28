@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Validated
 public interface TodayMoodApi {
     @Operation(summary = "오늘의 기분 저장", description = "사용자에게 입력받은 기분, 메세지등을 저장합니다.")
@@ -35,8 +37,7 @@ public interface TodayMoodApi {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @GetMapping(produces = {"application/json"})
-    ResponseEntity<?> getFamilyMoodList(
-            @Parameter(in = ParameterIn.PATH, description = "가족 조회에 사용될 사용자의 id", required = true, schema = @Schema()) @PathVariable Long memberId);
+    ResponseEntity<?> getFamilyMoodList(Principal principal);
 
     @Operation(summary = "오늘의 기분 수정", description = "사용자에게 입력받은 기분, 메세지등을 수정합니다.")
     @ApiResponses(value = {

@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -37,7 +38,8 @@ public class TodayMoodService {
     }
 
     //조회기능 null값 예외처리해줘야함 + 생년월일 기준 sort해서 보내줘야함
-    public List<TodayMoodListDto> getFamilyMoodList(Long memberId) {
+    public List<TodayMoodListDto> getFamilyMoodList(Principal principal) {
+        Long memberId = Long.parseLong(principal.getName());
         Member member = memberRepository.findById(memberId).orElseThrow();
         List<Member> members = memberRepository.findByFamily_FamilyId(member.getFamily().getFamilyId());
         List<TodayMoodListDto> resDtos = new ArrayList<>();
@@ -45,11 +47,12 @@ public class TodayMoodService {
         for (int i = 0; i < members.size(); i++) {
             TodayMood familyMood = todayMoodRepository.findByMember_MemberId(members.get(i).getMemberId());
             if (familyMood != null) {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
-                        .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage()).mood(familyMood.getMood()).build();
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(memberId).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
+                        .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage())
+                        .mood(familyMood.getMood()).build();
                 resDtos.add(todayMoodListDto);
             } else {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(memberId).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(null).message(null).mood(null).build();
                 resDtos.add(todayMoodListDto);
             }
