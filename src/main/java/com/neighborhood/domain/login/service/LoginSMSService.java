@@ -59,6 +59,7 @@ public class LoginSMSService {
     }
 
     public LoginResponseDto verifySMS(LoginRequestDto requestDto) {
+        boolean isNew = false;
         // 인증에 실패한 경우
         if (isSMSAuthCodeWrong(requestDto)) {
             // 인증번호가 만료된 경우
@@ -74,6 +75,7 @@ public class LoginSMSService {
         // 신규 사용자인 경우 전화번호로만 save 진행
         Member member;
         if (!memberRepository.existsByPhone(requestDto.getPhone())) {
+            isNew = true;
             memberManageService.save(requestDto.getPhone(),requestDto.getFcmTocken());
         }
         // 기존 사용자의 경우 save 안함
@@ -83,7 +85,7 @@ public class LoginSMSService {
         member.setFcmToken(requestDto.getFcmTocken());
         Long logInMemberId = member.getMemberId();
         String foundMemberId = String.valueOf(logInMemberId);
-        return loginService.login(foundMemberId);
+        return loginService.login(foundMemberId, isNew);
     }
 
     private boolean isSMSAuthCodeWrong(LoginRequestDto requestDto) {
@@ -97,7 +99,7 @@ public class LoginSMSService {
     // 테스트시 사용할 토큰 발급용 메소드 (운영시 삭제)
     public LoginResponseDto provideTestToken(Long memberId) {
         String stringMemberId = String.valueOf(memberId);
-        return loginService.login(stringMemberId);
+        return loginService.login(stringMemberId, false);
     }
 
 }
