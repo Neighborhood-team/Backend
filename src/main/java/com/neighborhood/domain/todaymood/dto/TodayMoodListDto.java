@@ -23,14 +23,17 @@ public class TodayMoodListDto {
     private String birthDate;
     @Schema(description = "사용자 가족 역할군", example = "DAD,MOM,SON ...")
     private String memberRole;
+    @Schema(description = "사용자 id", example = "1")
+    private Long memberId;
 
     @Builder
-    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole, String birthDate) {
+    public TodayMoodListDto(Long moodId,String mood, String message, String memberName, String memberRole, String birthDate,Long memberId) {
         this.moodId = moodId;
         this.mood = mood;
         this.message = message;
         this.memberName = memberName;
         this.memberRole = memberRole;
         this.birthDate = birthDate;
+        this.memberId = memberId;
     }
 }
