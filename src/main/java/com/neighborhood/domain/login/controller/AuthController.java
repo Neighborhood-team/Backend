@@ -6,6 +6,8 @@ import com.neighborhood.domain.login.service.LoginSMSService;
 import com.neighborhood.domain.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -39,6 +41,14 @@ public class AuthController implements AuthApi {
     @PostMapping("/testToken/{memberId}")
     public LoginResponseDto provideTestToken(@PathVariable Long memberId) {
         return loginSMSService.provideTestToken(memberId);
+    }
+
+    @DeleteMapping("/logout/{memberId}")
+    public ResponseEntity<?> logout(@PathVariable Long memberId) {
+        String deletedMemberId = String.valueOf(memberId);
+        loginService.logout(deletedMemberId);
+
+        return new ResponseEntity<>(deletedMemberId, HttpStatus.OK);
     }
 
 }
