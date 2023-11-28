@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,9 +23,13 @@ import java.util.List;
 public class FamilyApiService {
 
     private final FamilyRepository familyRepository;
-    private final FamilyTypeScoreRepository familyTypeScoreRepository;
     private final TodayQuestionApiService todayQuestionApiService;
     private final MemberManageService memberManageService;
+
+    public Family findFamily(String familyCode) {
+        return familyRepository.findByFamilyCode(familyCode)
+                .orElseThrow(() -> new IllegalArgumentException("가족 코드를 재확인하세요!"));
+    }
 
     /**
      * 해당 회원을 이미 존재하는 가족에 추가
@@ -92,9 +97,19 @@ public class FamilyApiService {
         todayQuestionApiService.updateTodayQuestion(member);
 
         return new MemberResponseDto(member);
-
-
     }
 
+    public List<MemberResponseDto> getAllMembersInFamily(String familyCode) {
+        Family family = findFamily(familyCode);
+        List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
+        List<Member> members = family.getMembers();
+
+        for (Member m : members) {
+            memberResponseDtos.add(new MemberResponseDto(m));
+        }
+
+        return memberResponseDtos;
+
+    }
 
 }
