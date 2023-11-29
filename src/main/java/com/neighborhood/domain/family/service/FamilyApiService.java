@@ -6,9 +6,12 @@ import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.entity.Member;
+import com.neighborhood.domain.member.repository.MemberRepository;
 import com.neighborhood.domain.member.service.MemberManageService;
 import com.neighborhood.domain.pretest.entity.TestType;
 import com.neighborhood.domain.todayquestion.service.TodayQuestionApiService;
+import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.errorCode.LoginErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class FamilyApiService {
     private final FamilyRepository familyRepository;
     private final TodayQuestionApiService todayQuestionApiService;
     private final MemberManageService memberManageService;
+    private final MemberRepository memberRepository;
 
     public Family findFamily(String familyCode) {
         return familyRepository.findByFamilyCode(familyCode)
@@ -72,6 +76,9 @@ public class FamilyApiService {
 
         // 생성된 가족에 해당 회원 추가
         Member member = memberManageService.findMember(memberId);
+        if(!(member.getFamily().getFamilyCode() == null)) {
+            throw new RestApiException(LoginErrorCode.FAMILY_ALREADY_EXISTS);
+        }
         member.setFamily(family);
 
         // 만들어진 가족의 유형 총점을 0으로 초기화하여 각 유형별 가족 유형점수 총합 엔티티 생성
