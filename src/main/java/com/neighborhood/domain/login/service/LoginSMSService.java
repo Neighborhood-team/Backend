@@ -59,7 +59,6 @@ public class LoginSMSService {
     }
 
     public LoginResponseDto verifySMS(LoginRequestDto requestDto) {
-        boolean isNew = false;
         // 인증에 실패한 경우
         if (isSMSAuthCodeWrong(requestDto)) {
             // 인증번호가 만료된 경우
@@ -83,14 +82,17 @@ public class LoginSMSService {
 
         // 신규 사용자의 경우 isNew = true
         if(member.getName() == null || member.getFamilyRole() == null || member.getBirthDate() == null) {
-            isNew = true;
+            return LoginResponseDto.builder()
+                    .memberId(String.valueOf(member.getMemberId()))
+                    .isNew(true)
+                    .build();
         }
 
         // 기존 사용자의 경우 save 안함
         member.setFcmToken(requestDto.getFcmTocken());
         Long logInMemberId = member.getMemberId();
         String foundMemberId = String.valueOf(logInMemberId);
-        return loginService.login(foundMemberId, isNew);
+        return loginService.login(foundMemberId, false);
     }
 
     private boolean isSMSAuthCodeWrong(LoginRequestDto requestDto) {
