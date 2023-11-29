@@ -22,19 +22,19 @@ public class TodayMoodController implements TodayMoodApi{
     private final FCMService fcmService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveTodayMood(@RequestBody TodayMoodUpdateDto todayMoodDto) {
+    public ResponseEntity<Long> saveTodayMood(@RequestBody TodayMoodUpdateDto todayMoodDto) {
         Long moodId = todayMoodService.saveTodayMood(todayMoodDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(moodId);
     }
 
     @GetMapping("/get-family")
-    public ResponseEntity<?> getFamilyMoodList(Principal principal) {
+    public ResponseEntity<List<TodayMoodListDto>> getFamilyMoodList(Principal principal) {
         List<TodayMoodListDto> moods = todayMoodService.getFamilyMoodList(principal);
         return ResponseEntity.status(HttpStatus.CREATED).body(moods);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateTodayMood(@RequestBody TodayMoodUpdateDto todayMoodUpdateDto) {
+    public ResponseEntity<Long> updateTodayMood(@RequestBody TodayMoodUpdateDto todayMoodUpdateDto) {
         Long moodId = todayMoodService.updateTodayMood(todayMoodUpdateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(moodId);
     }
