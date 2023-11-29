@@ -3,7 +3,6 @@ package com.neighborhood.domain.family.service;
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.entity.FamilyTypeScore;
 import com.neighborhood.domain.family.repository.FamilyRepository;
-import com.neighborhood.domain.family.repository.FamilyTypeScoreRepository;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.entity.Member;
 import com.neighborhood.domain.member.repository.MemberRepository;
@@ -28,7 +27,6 @@ public class FamilyApiService {
     private final FamilyRepository familyRepository;
     private final TodayQuestionApiService todayQuestionApiService;
     private final MemberManageService memberManageService;
-    private final MemberRepository memberRepository;
 
     public Family findFamily(String familyCode) {
         return familyRepository.findByFamilyCode(familyCode)
@@ -76,9 +74,12 @@ public class FamilyApiService {
 
         // 생성된 가족에 해당 회원 추가
         Member member = memberManageService.findMember(memberId);
-        if(!(member.getFamily().getFamilyCode() == null)) {
+        
+        // 이미 가족에 속해있는 회원이면 예외처리
+        if(!(member.getFamily() == null)) {
             throw new RestApiException(LoginErrorCode.FAMILY_ALREADY_EXISTS);
         }
+
         member.setFamily(family);
 
         // 만들어진 가족의 유형 총점을 0으로 초기화하여 각 유형별 가족 유형점수 총합 엔티티 생성
