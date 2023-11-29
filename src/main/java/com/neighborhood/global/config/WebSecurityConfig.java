@@ -60,6 +60,7 @@ public class WebSecurityConfig {
             "/family/existing/**",
             "/family/new/**",
             "/member/setInfo/**",
-            "/member/checkParents"
+            "/member/checkParents",
+            "/member/name/**"
     };
 }
