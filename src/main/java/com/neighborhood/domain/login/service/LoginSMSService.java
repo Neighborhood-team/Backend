@@ -75,13 +75,18 @@ public class LoginSMSService {
         // 신규 사용자인 경우 전화번호로만 save 진행
         Member member;
         if (!memberRepository.existsByPhone(requestDto.getPhone())) {
-            isNew = true;
             memberManageService.save(requestDto.getPhone(),requestDto.getFcmTocken());
         }
-        // 기존 사용자의 경우 save 안함
         member = memberRepository.findByPhone(requestDto.getPhone()).orElseThrow(() ->
                 new RestApiException(MemberErrorCode.MEMBER_NOT_FOUND)
         );
+
+        // 신규 사용자의 경우 isNew = true
+        if(member.getName() == null || member.getFamilyRole() == null || member.getBirthDate() == null) {
+            isNew = true;
+        }
+
+        // 기존 사용자의 경우 save 안함
         member.setFcmToken(requestDto.getFcmTocken());
         Long logInMemberId = member.getMemberId();
         String foundMemberId = String.valueOf(logInMemberId);

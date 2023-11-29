@@ -17,6 +17,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByPhone(String phone);
 
-    boolean existsByFamilyRole(FamilyRole familyRole);
     List<Member> findByFamily_FamilyId(Long familyId);
 }
