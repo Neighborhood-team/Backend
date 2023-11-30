@@ -6,6 +6,8 @@ import com.neighborhood.domain.todaymood.dto.TodayMoodListDto;
 import com.neighborhood.domain.todaymood.dto.TodayMoodUpdateDto;
 import com.neighborhood.domain.todaymood.entity.TodayMood;
 import com.neighborhood.domain.todaymood.repository.TodayMoodRepository;
+import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.errorCode.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -42,17 +44,20 @@ public class TodayMoodService {
         Long memberId = Long.parseLong(principal.getName());
         Member member = memberRepository.findById(memberId).orElseThrow();
         List<Member> members = memberRepository.findByFamily_FamilyId(member.getFamily().getFamilyId());
+        if(members==null||member==null){
+            throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+        }
         List<TodayMoodListDto> resDtos = new ArrayList<>();
 
         for (int i = 0; i < members.size(); i++) {
             TodayMood familyMood = todayMoodRepository.findByMember_MemberId(members.get(i).getMemberId());
             if (familyMood != null) {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(memberId).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(members.get(i).getMemberId()).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(familyMood.getTodayMood_id()).message(familyMood.getMessage())
                         .mood(familyMood.getMood()).build();
                 resDtos.add(todayMoodListDto);
             } else {
-                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(memberId).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
+                TodayMoodListDto todayMoodListDto = TodayMoodListDto.builder().memberId(members.get(i).getMemberId()).memberName(members.get(i).getName()).birthDate(String.valueOf(members.get(i).getBirthDate()))
                         .memberRole(members.get(i).getFamilyRole().toString()).moodId(null).message(null).mood(null).build();
                 resDtos.add(todayMoodListDto);
             }
