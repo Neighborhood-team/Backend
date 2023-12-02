@@ -1,6 +1,7 @@
 package com.neighborhood.global.config;
 
 import com.neighborhood.domain.login.jwt.JwtAuthenticationFilter;
+import com.neighborhood.domain.login.jwt.JwtExceptionFilter;
 import com.neighborhood.domain.login.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
                 .build();
 
     }

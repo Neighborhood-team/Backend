@@ -1,8 +1,10 @@
 package com.neighborhood.domain.login.jwt;
 
 import com.neighborhood.domain.login.dto.LoginResponseDto;
+import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.service.CustomUserDetailsService;
-import com.neighborhood.global.exception.RestApiException;
+import com.neighborhood.global.exception.*;
+import com.neighborhood.global.exception.errorCode.ErrorCode;
 import com.neighborhood.global.exception.errorCode.JwtErrorCode;
 import com.neighborhood.global.util.RedisUtil;
 import io.jsonwebtoken.*;
@@ -33,8 +35,8 @@ public class TokenProvider {
     private String secretKey;
     private final CustomUserDetailsService userDetailsService;
     private final RedisUtil redisUtil;
-    private static long accessTokenValidTime = 3 * 24 * 60 * 60L; // 3일   60L = 1분
-    private static long refreshTokenValidTime = 2 * 7 * 24 * 60 * 60L; // 2주
+    private static long accessTokenValidTime = 60L; // 60L = 1분  3일 : 3 * 24 * 60 * 60L
+    private static long refreshTokenValidTime = 2 * 7 * 24 * 60 * 60L; // 2주 : 2 * 7 * 24 * 60 * 60L
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -92,12 +94,20 @@ public class TokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request) throws RestApiException {
-        String token = request.getHeader("Token");
+    public String getTokenType(String token) {
+        return String.valueOf(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("tokenType"));
+    }
+
+    public String resolveToken(HttpServletRequest request) throws NullTokenException, RequestWithRefreshTokenException {
+        String token = request.getHeader("token");
         if (token != null) {
+            if(getTokenType(token).equals("refresh")) {
+                throw new RequestWithRefreshTokenException();
+            }
             return token;
         }
-        throw new RestApiException(JwtErrorCode.ACCESS_TOKEN_NULL);
+        log.info(request.getRequestURI());
+        throw new NullTokenException();
     }
 
     public void validateToken(String token) throws SignatureException, ExpiredJwtException {
@@ -109,6 +119,11 @@ public class TokenProvider {
     }
 
     private boolean checkRefreshTokenIsExpired(String token) {
+
+        if (!getTokenType(token).equals("refresh")) {
+            throw new ReIssueWithAccessTokenException();
+        }
+
         String memberId = getMemberId(token);
         // Refresh token이 만료된 경우 true 반환
         if (!redisUtil.hasData(memberId)) {
@@ -119,19 +134,32 @@ public class TokenProvider {
         return claimsJws.getBody().getExpiration().before(new Date());
     }
 
-    public LoginResponseDto reIssue(String refreshToken) throws RestApiException {
+    public LoginResponseDto reIssue(String refreshToken) {
         String memberId = getMemberId(refreshToken);
 
+//        if (!checkRefreshTokenIsExpired(refreshToken)) {
+//            String newAccessToken = createAccessToken(memberId);
+//            String newRefreshToken = createRefreshToken(memberId);
+//
+//            return LoginResponseDto.builder()
+//                    .accessToken(newAccessToken)
+//                    .refreshToken(newRefreshToken)
+//                    .memberId(memberId)
+//                    .build();
+//            }
+//        return null;
+
         if (checkRefreshTokenIsExpired(refreshToken)) {
-            throw new RestApiException(JwtErrorCode.REFRESH_TOKEN_EXPIRED);
+            throw new RefreshTokenExpiredException();
         }
 
-        // Refresh Token이 유효하면 Access Token 재발급
-        String accessToken = createAccessToken(memberId);
+        // Refresh Token이 유효하면 Access Token, Refresh Token 재발급
+        String newAccessToken = createAccessToken(memberId);
+        String newRefreshToken = createRefreshToken(memberId);
 
         return LoginResponseDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
                 .memberId(memberId)
                 .build();
     }
@@ -139,7 +167,5 @@ public class TokenProvider {
     public void expireToken(String memberId) {
         redisUtil.deleteData(memberId);
     }
-
-
 
 }
