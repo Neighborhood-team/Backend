@@ -2,7 +2,7 @@ package com.neighborhood.global.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import com.neighborhood.global.exception.ErrorCode;
+import com.neighborhood.global.exception.errorCode.ErrorCode;
 
 /**
  * 발생한 예외를 처리해줄 예외 클래스.

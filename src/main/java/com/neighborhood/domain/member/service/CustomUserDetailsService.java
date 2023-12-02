@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Member member = memberRepository.findById(Long.parseLong(memberId))
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 Access Token입니다. 해당 사용자의 토큰으로 요청해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 Access Token이 아닙니다."));
 
         return new org.springframework.security.core.userdetails.User(
                 member.getUsername(), member.getPassword(), member.getAuthorities()

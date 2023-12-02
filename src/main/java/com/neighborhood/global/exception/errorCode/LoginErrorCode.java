@@ -1,6 +1,5 @@
 package com.neighborhood.global.exception.errorCode;
 
-import com.neighborhood.global.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
 package com.neighborhood.domain.login.jwt;
 
+import com.neighborhood.global.exception.NullTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private final TokenProvider tokenProvider;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException, NullTokenException {
         String token = tokenProvider.resolveToken((HttpServletRequest) request);
 
         tokenProvider.validateToken(token);
