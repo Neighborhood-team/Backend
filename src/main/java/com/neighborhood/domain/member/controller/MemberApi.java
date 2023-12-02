@@ -62,4 +62,14 @@ public interface MemberApi {
     Boolean checkDuplicateParents(
             @Parameter(in = ParameterIn.DEFAULT, description = "가족코드", required = true, schema = @Schema()) @RequestBody MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto);
 
+
+    @Operation(summary = "토큰으로 사용자 정보 조회", description = "해당 Access 토큰을 소유한 사용자의 정보를 담은 dto 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @GetMapping(produces = {"application/json"})
+    MemberResponseDto getMemberInfo(
+            @Parameter(in = ParameterIn.HEADER, description = "Access 토큰", required = true, schema = @Schema()) @RequestHeader(value = "token") String token);
 }

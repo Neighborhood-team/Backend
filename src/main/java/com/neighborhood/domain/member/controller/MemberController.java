@@ -39,4 +39,9 @@ public class MemberController implements MemberApi {
     public Boolean checkDuplicateParents(@RequestBody MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto) {
         return memberManageService.checkDuplicateParents(memberCheckDuplicateParentsDto);
     }
+
+    @GetMapping("/")
+    public MemberResponseDto getMemberInfo(@RequestHeader("token") String token) {
+        return memberManageService.getMemberInfo(token);
+    }
 }
