@@ -6,10 +6,7 @@ import com.neighborhood.global.util.BaseController;
 import com.neighborhood.global.config.ResponseApiMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -26,7 +23,7 @@ public class ContextCopyController extends BaseController implements ContextCopy
      * [POST] contextcopy/get-context
      * @return ResponseEntity
      */
-    @GetMapping("/get-context")
+    @PostMapping("/get-context")
     public ResponseEntity<ResponseApiMessage> getContext(@RequestBody String familyType){
         return sendResponseHttpByJson(SUCCESS_CODE, "get context", contextCopyService.getRandomContext(familyType));
     }
