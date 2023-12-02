@@ -1,4 +1,4 @@
-package com.neighborhood.global.exception;
+package com.neighborhood.global.exception.errorCode;
 
 import org.springframework.http.HttpStatus;
 

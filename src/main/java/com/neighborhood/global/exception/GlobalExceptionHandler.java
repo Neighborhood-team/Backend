@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.List;
 import java.util.stream.Collectors;
-import com.neighborhood.global.exception.ErrorCode;
+import com.neighborhood.global.exception.errorCode.ErrorCode;
 
 /**
  * /@Valid 유효성 검증, RestApiException, IllegalArgumentException, Exception에 대해
@@ -50,13 +50,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
         log.warn("handleIllegalArgument", e);
         ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
-        return handleExceptionInternal(errorCode, e.getMessage());
-    }
-
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<Object> handleExpiredJwt(ExpiredJwtException e) {
-        log.warn("handleExpiredJwt", e);
-        ErrorCode errorCode = JwtErrorCode.ACCESS_TOKEN_EXPIRED;
         return handleExceptionInternal(errorCode, e.getMessage());
     }
 

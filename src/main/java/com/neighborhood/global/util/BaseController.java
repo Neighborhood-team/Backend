@@ -2,13 +2,15 @@ package com.neighborhood.global.util;
 
 import com.neighborhood.global.config.ResponseApiMessage;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.charset.StandardCharsets;
 
-@Controller
+@RestControllerAdvice
 public class BaseController {
 
     /**
@@ -31,5 +33,23 @@ public class BaseController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
         return new ResponseEntity<>(responseApiMessage, headers, 200);
+    }
+
+    public ResponseEntity<?> sendResponse(Object data) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return new ResponseEntity<Object>(data, headers, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> sendResponse(Object data, HttpStatus httpStatus) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return new ResponseEntity<Object>(data, headers, httpStatus);
+    }
+
+    public ResponseEntity<?> sendResponse() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 }

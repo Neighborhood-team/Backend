@@ -2,6 +2,7 @@ package com.neighborhood.domain.member.service;
 
 import com.neighborhood.domain.family.entity.Family;
 import com.neighborhood.domain.family.repository.FamilyRepository;
+import com.neighborhood.domain.login.jwt.TokenProvider;
 import com.neighborhood.domain.login.service.LoginService;
 import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
 import com.neighborhood.domain.member.dto.MemberNameResponseDto;
@@ -33,6 +34,7 @@ public class MemberManageService {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final PersonalInfoRepository personalInfoRepository;
     private final LoginService loginService;
+    private final TokenProvider tokenProvider;
 
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
@@ -115,6 +117,13 @@ public class MemberManageService {
             }
         }
         return true;
+    }
+
+    @Transactional
+    public MemberResponseDto getMemberInfo(String token) {
+        Member member = findMember(Long.parseLong(tokenProvider.getMemberId(token)));
+
+        return new MemberResponseDto(member);
     }
 
 
