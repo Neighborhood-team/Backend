@@ -121,7 +121,9 @@ public class MemberManageService {
 
     @Transactional
     public MemberResponseDto getMemberInfo(String token) {
+        log.info(token);
         Member member = findMember(Long.parseLong(tokenProvider.getMemberId(token)));
+        log.info(token);
 
         return new MemberResponseDto(member);
     }

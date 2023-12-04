@@ -35,7 +35,7 @@ public class TokenProvider {
     private String secretKey;
     private final CustomUserDetailsService userDetailsService;
     private final RedisUtil redisUtil;
-    private static long accessTokenValidTime = 60L; // 60L = 1분  3일 : 3 * 24 * 60 * 60L
+    private static long accessTokenValidTime = 3 * 24 * 60 * 60L; //  3일 : 3 * 24 * 60 * 60L
     private static long refreshTokenValidTime = 2 * 7 * 24 * 60 * 60L; // 2주 : 2 * 7 * 24 * 60 * 60L
     @PostConstruct
     protected void init() {
