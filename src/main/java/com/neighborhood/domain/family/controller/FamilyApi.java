@@ -27,7 +27,7 @@ public interface FamilyApi {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @PostMapping(produces = {"application/json"})
-    ResponseEntity<ResponseApiMessage> saveToExistingFamily(
+    ResponseEntity<?> saveToExistingFamily(
             @Parameter(in = ParameterIn.PATH, description = "가족코드", required = true, schema = @Schema()) @PathVariable("familyCode") String familyCode,
             @Parameter(in = ParameterIn.PATH, description = "사용자 id", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId);
 
