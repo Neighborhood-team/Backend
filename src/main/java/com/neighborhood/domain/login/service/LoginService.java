@@ -24,8 +24,9 @@ public class LoginService {
     }
 
     @Transactional
-    public void logout(String memberId) {
-        tokenProvider.expireToken(memberId);
+    public void logout(String token) {
+        String logoutMemberId = tokenProvider.getMemberId(token);
+        tokenProvider.expireToken(logoutMemberId);
     }
 
     @Transactional

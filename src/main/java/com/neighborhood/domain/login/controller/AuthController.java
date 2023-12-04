@@ -43,12 +43,11 @@ public class AuthController implements AuthApi {
         return loginSMSService.provideTestToken(memberId);
     }
 
-    @DeleteMapping("/logout/{memberId}")
-    public ResponseEntity<?> logout(@PathVariable Long memberId) {
-        String deletedMemberId = String.valueOf(memberId);
-        loginService.logout(deletedMemberId);
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("token") String token) {
+        loginService.logout(token);
 
-        return new ResponseEntity<>(deletedMemberId, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
