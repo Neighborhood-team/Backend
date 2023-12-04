@@ -62,11 +62,11 @@ public interface AuthApi {
 
     @Operation(summary = "로그아웃", description = "해당 사용자의 Access, Refresh 토큰을 모두 만료시킴")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그아웃 성공, 로그아웃한 사용자 id 반환"),
+            @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @DeleteMapping(produces = {"application/json"})
     ResponseEntity<?> logout(
-            @Parameter(in = ParameterIn.PATH, description = "사용자 id", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId);
+            @Parameter(in = ParameterIn.HEADER, description = "로그아웃 시킬 사용자의 Access token", required = true, schema = @Schema()) @RequestHeader(value = "token") String token);
 }
