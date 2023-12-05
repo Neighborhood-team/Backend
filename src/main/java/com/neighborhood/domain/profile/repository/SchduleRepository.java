@@ -12,5 +12,5 @@ import java.util.List;
 public interface SchduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> findByMemberAndEndDateBeforeOrderByStartDateAsc(Member member, LocalDate date);
-    List<Schedule> findByMemberAndEndDateAfterOrderByStartDateAsc(Member member, LocalDate date);
+    List<Schedule> findByMemberAndEndDateAfterOrEndDateEqualsOrderByStartDateAsc(Member member, LocalDate date);
 }
