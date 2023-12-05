@@ -48,7 +48,7 @@ public class ScheduleService {
         List<Schedule> before =
                 schduleRepository.findByMemberAndEndDateBeforeOrderByStartDateAsc(member, LocalDate.now());
         List<Schedule> after =
-                schduleRepository.findByMemberAndEndDateAfterOrEndDateEqualsOrderByStartDateAsc(member, LocalDate.now());
+                schduleRepository.findByMemberAndEndDateAfterOrEndDateEqualsOrderByStartDateAsc(member, LocalDate.now(), LocalDate.now());
         List<ScheduleDto.InquiryForm> beforeDtos = new ArrayList<>();
         List<ScheduleDto.InquiryForm> afterDtos = new ArrayList<>();
 
