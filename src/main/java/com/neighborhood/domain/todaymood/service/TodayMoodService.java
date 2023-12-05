@@ -34,7 +34,7 @@ public class TodayMoodService {
         return todayMood.getTodayMood_id();
     }
 
-    @Scheduled(cron = "0 0 18 * * *")
+    @Scheduled(cron = "0 0 8 * * *")
     public void deleteScheduler(){
         todayMoodRepository.deleteAll();
     }
