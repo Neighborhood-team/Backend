@@ -1,12 +1,17 @@
 package com.neighborhood.domain.profile.dto;
 
+import com.neighborhood.domain.member.entity.FamilyRole;
 import com.neighborhood.domain.profile.entity.PersonalInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
 @Getter
 @Data
+@AllArgsConstructor
+@Builder
 public class PersonalInfoResponseDto {
     @Schema(description = "상세정보 id", example = "1")
     Long personalInfoId;
@@ -44,6 +49,15 @@ public class PersonalInfoResponseDto {
     @Schema(description = "키, 옷 사이즈, 신발 사이즈", example = "175cm, 100/34, 270")
     String mySizes;
 
+    @Schema(description = "이름", example = "강다운")
+    private String name;
+
+    @Schema(description = "가족관계", example = "아빠")
+    private FamilyRole familyRole;
+
+    @Schema(description = "생일", example = "1999-04-03")
+    private String birthDate;
+
     public PersonalInfoResponseDto(PersonalInfo personalInfo) {
         this.personalInfoId = personalInfo.getPersonalInfoId();
         this.mbti = personalInfo.getMbti();
@@ -57,5 +71,8 @@ public class PersonalInfoResponseDto {
         this.birthdayGift = personalInfo.getBirthdayGift();
         this.mySizes = personalInfo.getMySizes();
         this.memberId = personalInfo.getMember().getMemberId();
+        this.name = personalInfo.getMember().getName();
+        this.familyRole = personalInfo.getMember().getFamilyRole();
+        this.birthDate = String.valueOf(personalInfo.getMember().getBirthDate());
     }
 }
