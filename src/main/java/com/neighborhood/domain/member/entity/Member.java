@@ -88,6 +88,12 @@ public class Member implements UserDetails {
         this.modifiedDate = LocalDateTime.now();
     }
 
+    public void updateFixedInfo(String name, FamilyRole familyRole, LocalDate birthDate) {
+        this.name = name;
+        this.familyRole = familyRole;
+        this.birthDate = birthDate;
+    }
+
     public void setMemberPhone(String phone) {
         this.phone = phone;
     }

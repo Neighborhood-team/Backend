@@ -1,5 +1,6 @@
 package com.neighborhood.domain.profile.dto;
 
+import com.neighborhood.domain.member.entity.FamilyRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
@@ -38,4 +39,13 @@ public class PersonalInfoInputDto {
 
     @Schema(description = "키, 옷 사이즈, 신발 사이즈", example = "175cm, 100/34, 270")
     private String mySizes;
+
+    @Schema(description = "이름", example = "강다운")
+    private String name;
+
+    @Schema(description = "가족관계", example = "아빠")
+    private FamilyRole familyRole;
+
+    @Schema(description = "생일", example = "1999-04-03")
+    private String birthDate;
 }
