@@ -91,3 +91,9 @@ INSERT INTO context_copy (context_id, context, context_role, context_title) VALU
 INSERT INTO context_copy (context_id, context, context_role, context_title) VALUES(16, '자식을 키우느라 배우고 싶은 일을 미뤄뒀던 부모님들이 많다고 합니다! 혹시 우리 부모님은 지금 배우고 싶은 게 있을까요?','CHILD','엄마, 요즘 배우고 싶은 일은 없으세요?')
 INSERT INTO context_copy (context_id, context, context_role, context_title) VALUES(17, '자식을 키우느라 배우고 싶은 일을 미뤄뒀던 부모님들이 많다고 합니다! 혹시 우리 부모님은 지금 배우고 싶은 게 있을까요?','CHILD','아빠, 요즘 배우고 싶은 일은 없으세요?')
 INSERT INTO context_copy (context_id, context, context_role, context_title) VALUES(18, '가족의 응원은 그 무엇보다도 힘이 됩니다. 가족이 하루를 잘 보낼 수 있도록 연락을 드려보세요!','CHILD','오늘 하루도 모두 힘내세요!')
+
+-- 개인정보 --
+INSERT INTO personal_info (personal_info_id, birthday_gift, blood_type, hates, interests, likes, mbti, motto, my_sizes, place_to_trip, role_in_fam, member_id) VALUES(1, '상품권', 'A형', '바퀴벌레', '돈,집', '수박', 'ENFP', '하면 된다', '178cm 100/30 260cm', '보라카이', '분위기 메이커', 2)
+
+-- 비상연락망 --
+INSERT INTO emergency_contact (emergency_contact_id, name, phone, member_id) VALUES(1, '정세풍', '01012345678', 2)
