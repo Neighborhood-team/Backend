@@ -32,9 +32,17 @@ public class ScheduleApiController implements ScheduleApi {
     }
 
 
-    public ScheduleDto.ScheduleList getSchedules(Principal principal) {
+    public ScheduleDto.ScheduleList getMySchedules(Principal principal) {
         Member member = memberRepository.findById(Long.parseLong(principal.getName()))
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        return scheduleService.getSchedules(member);
+    }
+
+    @Override
+    public ScheduleDto.ScheduleList getMemberSchedules(Long memberId) {
+        Member member = memberRepository
+                .findById(memberId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         return scheduleService.getSchedules(member);
     }

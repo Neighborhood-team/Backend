@@ -29,13 +29,23 @@ public interface ScheduleApi {
             @Parameter(in = ParameterIn.DEFAULT, description = "스케줄 정보 입력 내용", required=true, schema=@Schema()) @RequestBody ScheduleDto.InputForm form);
 
 
-    @Operation(summary = "스케줄 조회", description = "해당 회원의 스케줄 조회")
+    @Operation(summary = "자신의 스케줄 조회", description = "로그인한 회원 자신의 스케줄 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "스케줄 목록", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleDto.ScheduleList.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @GetMapping(value = "/schedules", produces = { "application/json" })
-    ScheduleDto.ScheduleList getSchedules(
+    ScheduleDto.ScheduleList getMySchedules(
             Principal principal);
+
+    @Operation(summary = "특정 회원의 스케줄 조회", description = "특정 회원의 스케줄 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스케줄 목록", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ScheduleDto.ScheduleList.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
+            @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
+    @GetMapping(value = "/schedules/{memberId}", produces = { "application/json" })
+    ScheduleDto.ScheduleList getMemberSchedules(
+            @Parameter(in = ParameterIn.PATH, description = "사용자 id", required = true, schema = @Schema()) @PathVariable("memberId") Long memberId);
 }
