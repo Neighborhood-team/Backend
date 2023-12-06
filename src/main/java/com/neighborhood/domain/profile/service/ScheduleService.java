@@ -45,20 +45,14 @@ public class ScheduleService {
     @Transactional
     public ScheduleDto.ScheduleList getSchedules(Member member) {
 
-        List<Schedule> before =
-                schduleRepository.findByMemberAndEndDateBeforeOrderByStartDateAsc(member, LocalDate.now());
-        List<Schedule> after =
-                schduleRepository.findByMemberAndEndDateAfterOrEndDateEqualsOrderByStartDateAsc(member, LocalDate.now(), LocalDate.now());
-        List<ScheduleDto.InquiryForm> beforeDtos = new ArrayList<>();
-        List<ScheduleDto.InquiryForm> afterDtos = new ArrayList<>();
+        List<Schedule> schedules = schduleRepository.findByMemberOrderByStartDateAsc(member);
+        List<ScheduleDto.InquiryForm> dtos = new ArrayList<>();
 
-        for (Schedule s : before) {
-            beforeDtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent()));
-        }
-        for (Schedule s : after) {
-            afterDtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent()));
+        for (Schedule s : schedules) {
+            Boolean isOngoing = !LocalDate.now().isBefore(s.getStartDate()) && !LocalDate.now().isAfter(s.getEndDate());
+            dtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent(), isOngoing));
         }
 
-        return new ScheduleDto.ScheduleList(beforeDtos, afterDtos);
+        return new ScheduleDto.ScheduleList(dtos);
     }
 }

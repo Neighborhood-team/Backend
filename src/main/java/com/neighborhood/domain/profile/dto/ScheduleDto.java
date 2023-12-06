@@ -32,10 +32,8 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class ScheduleList {
 
-        @Schema(description = "이미 끝난 일정 리스트")
-        private List<InquiryForm> finishedSchedules;
-        @Schema(description = "진행중/진행예정 일정 리스트")
-        private List<InquiryForm> notFinishedSchedules;
+        @Schema(description = "정렬된 일정 리스트")
+        private List<InquiryForm> schedules;
     }
 
     @Data
@@ -51,6 +49,8 @@ public class ScheduleDto {
         private String endDate;
         @Schema(description = "스케줄 내용", example = "저녁 약속")
         private String content;
+        @Schema(description = "진행 중 여부", example = "true")
+        private Boolean isOngoing;
     }
 
 }
