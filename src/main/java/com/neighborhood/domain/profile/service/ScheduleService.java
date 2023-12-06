@@ -46,13 +46,26 @@ public class ScheduleService {
     public ScheduleDto.ScheduleList getSchedules(Member member) {
 
         List<Schedule> schedules = schduleRepository.findByMemberOrderByStartDateAsc(member);
-        List<ScheduleDto.InquiryForm> dtos = new ArrayList<>();
+
+        List<ScheduleDto.InquiryForm> completeDtos = new ArrayList<>();
+        List<ScheduleDto.InquiryForm> ongoingDtos = new ArrayList<>();
+        List<ScheduleDto.InquiryForm> plannedDtos = new ArrayList<>();
+        List<ScheduleDto.InquiryForm> resultDtos = new ArrayList<>();
 
         for (Schedule s : schedules) {
-            Boolean isOngoing = !LocalDate.now().isBefore(s.getStartDate()) && !LocalDate.now().isAfter(s.getEndDate());
-            dtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent(), isOngoing));
+            if(s.getEndDate().isBefore(LocalDate.now())){
+                completeDtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent(), false));
+            } else if (!LocalDate.now().isBefore(s.getStartDate()) && !LocalDate.now().isAfter(s.getEndDate())){
+                ongoingDtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent(), true));
+            } else {
+                plannedDtos.add(new ScheduleDto.InquiryForm(s.getScheduleId(), String.valueOf(s.getStartDate()), String.valueOf(s.getEndDate()), s.getContent(), false));
+            }
         }
 
-        return new ScheduleDto.ScheduleList(dtos);
+        resultDtos.addAll(completeDtos);
+        resultDtos.addAll(ongoingDtos);
+        resultDtos.addAll(plannedDtos);
+
+        return new ScheduleDto.ScheduleList(resultDtos);
     }
 }
