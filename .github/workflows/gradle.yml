@@ -75,7 +75,7 @@ jobs:
             sudo docker stop capstone-container
             sudo docker rm capstone-container
             sudo docker rmi sepang/capstone-dev
-            sudo docker run -it TZ=Asia/Seoul -d -p 8080:8080 --name capstone-container sepang/capstone-dev
+            sudo docker run -i TZ=Asia/Seoul -d -p 8080:8080 --name capstone-container sepang/capstone-dev
 
       # REMOVE Github IP FROM security group (9)
       - name: Remove IP FROM security group
