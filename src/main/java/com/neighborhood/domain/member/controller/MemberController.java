@@ -1,10 +1,8 @@
 package com.neighborhood.domain.member.controller;
 
 import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
-import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
-import com.neighborhood.domain.member.entity.FamilyRole;
 import com.neighborhood.domain.member.service.MemberManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,7 @@ public class MemberController implements MemberApi {
     }
 
     @GetMapping("/name/{familyCode}")
-    public MemberNameResponseDto findFirstMemberInFamily(@PathVariable String familyCode) {
+    public MemberResponseDto findFirstMemberInFamily(@PathVariable String familyCode) {
         return memberManageService.findFirstMemberInFamily(familyCode);
     }
 
