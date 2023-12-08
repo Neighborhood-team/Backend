@@ -1,9 +1,7 @@
 package com.neighborhood.domain.profile.controller;
 
-import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.profile.dto.PersonalInfoInputDto;
 import com.neighborhood.domain.profile.dto.PersonalInfoResponseDto;
-import com.neighborhood.domain.profile.entity.PersonalInfo;
 import com.neighborhood.global.Schema.ErrorSchema;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

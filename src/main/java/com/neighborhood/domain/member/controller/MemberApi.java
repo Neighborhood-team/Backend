@@ -1,7 +1,6 @@
 package com.neighborhood.domain.member.controller;
 
 import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
-import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.global.Schema.ErrorSchema;
@@ -36,7 +35,7 @@ public interface MemberApi {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class))),
             @ApiResponse(responseCode = "500", description = "서버 내부 에러", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorSchema.class)))})
     @GetMapping(produces = {"application/json"})
-    MemberNameResponseDto findFirstMemberInFamily(
+    MemberResponseDto findFirstMemberInFamily(
             @Parameter(in = ParameterIn.PATH, description = "가족코드", required = true, schema = @Schema()) @PathVariable("familyCode") String familyCode);
 
 

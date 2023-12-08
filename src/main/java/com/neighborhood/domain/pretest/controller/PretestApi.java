@@ -1,7 +1,5 @@
 package com.neighborhood.domain.pretest.controller;
 
-import com.neighborhood.domain.login.dto.LoginRequestDto;
-import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.pretest.dto.ResultResponseDto;
 import com.neighborhood.domain.pretest.dto.ResultResponseMemberDto;
 import com.neighborhood.domain.pretest.dto.ResultSaveRequestDto;
@@ -14,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
