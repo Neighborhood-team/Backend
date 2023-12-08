@@ -5,7 +5,6 @@ import com.neighborhood.domain.family.repository.FamilyRepository;
 import com.neighborhood.domain.login.jwt.TokenProvider;
 import com.neighborhood.domain.login.service.LoginService;
 import com.neighborhood.domain.member.dto.MemberCheckDuplicateParentsDto;
-import com.neighborhood.domain.member.dto.MemberNameResponseDto;
 import com.neighborhood.domain.member.dto.MemberResponseDto;
 import com.neighborhood.domain.member.dto.MemberUpdateRequestDto;
 import com.neighborhood.domain.member.entity.FamilyRole;
@@ -97,11 +96,11 @@ public class MemberManageService {
     }
 
     @Transactional
-    public MemberNameResponseDto findFirstMemberInFamily(String familyCode) {
+    public MemberResponseDto findFirstMemberInFamily(String familyCode) {
         Family family = findFamily(familyCode);
         Member member = memberRepository.findFirstByFamilyOrderByCreatedDateAsc(family);
 
-        return new MemberNameResponseDto(member);
+        return new MemberResponseDto(member);
     }
 
     public Boolean checkDuplicateParents(MemberCheckDuplicateParentsDto memberCheckDuplicateParentsDto) {
